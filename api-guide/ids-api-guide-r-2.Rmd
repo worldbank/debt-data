@@ -1,0 +1,160 @@
+---
+title: "Part 2: Accessing International Debt Statistics (IDS) through World Bank API"
+output: html_document
+---
+```{r global_options, include=FALSE}
+#removing all warnings and messages from the doc that appear when loading the packages
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+### *guide in R*
+Date: 05/22/2019 <br>
+[Data source](https://datacatalog.worldbank.org/dataset/international-debt-statistics)<br>
+[Developer Information](https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information)
+
+This is second part of a two-part series on accessing the International Debt Statistics (IDS) database through the World Bank Data API. In the first part (LINK NEEDED), we queried the World Bank Data API to retrieve indicator names and location codes. In this guide, we will use that information to explore the **regional trends of long-term external debt stocks** from the IDS database. The following code will show step-by-step how to:
+
+
+1. Setup up your environment with the needed packages
+2. Select your data specifications
+3. Use the World Bank API call to return the specified data
+4. Explore the data through basic descriptive analysis // create a pretty chart.
+
+
+## 1. Setup
+To start, make sure you have the following packages installed on your machine. To install an R package type install.packages("WDI") into R. You can also visit each of the linked sites below for reference.
+
+- [WDI](https://cran.r-project.org/web/packages/WDI/WDI.pdf): Search, extract and format data from the World Bank's World Development Indicators.
+- [ggplot2](https://ggplot2.tidyverse.org/): Creating graphics
+- [plotly](https://plot.ly/r/):  Graphing library
+- [plyr](https://www.rdocumentation.org/packages/plyr/versions/1.8.4): Data manipulation
+
+
+Then, open up your preferred mode of writing R. This could be in [R Studio](https://www.rstudio.com/). Now follow the rest of the steps below to retreive and analyze the World Bank data.
+
+```{r}
+# Load packages
+library(WDI)
+library(ggplot2)
+library(plotly)
+```
+
+## 2. Data Specifications
+Now you can specify the the data that you want to explore using the following parameters:
+
+- **Indicator(s)**: the indicator code for the data series
+- **Location(s)**: countries, regions, income 
+- **Time**: years
+
+
+#### Indicator(s)
+The World Bank's Data Catalog contains indicator codes for each data series. In this guide, we will be looking at "long-term external debt stock" from the IDS data. To find the indicator for the data in which you're interested, you can either explore the [World Bank data catalog](https://datacatalog.worldbank.org/) or use an API query (LINK NEEDED) as outlined in Part 1 of this series. The IDS indicators are also conveniently stored as a spreadsheet (LINK NEEDED) in this repo. 
+```{r}
+# selecting the indicator
+dataSeries = "DT.DOD.DLXF.CD"
+```
+
+
+#### Location(s)
+To select a location by country, region, or income level you will need to know its 2 or 3 letter code. To figure out what this code is, you can either find it on the [WITS System site](https://wits.worldbank.org/wits/wits/witshelp/content/codes/country_codes.htm), use an API query as outlined in Part 1 of this series (LINK NEEDED), or use the convenient [location-codes spreadsheet](https://github.com/worldbank/debt-data/blob/master/location-codes.csv)* in this repo. 
+
+We will select regional aggregates (excluding high-income countries):
+
+- ECA: Europe & Central Asia
+- SSA: Sub-Saharan Africa
+- SAS: South Asia
+- LAC: Latin America Caribbean
+- MNA: Middle East & North Africa
+- EAP: East Asia & Pacific
+
+
+###### *The location-codes spreadsheet was created using the API query: http://api.worldbank.org/v2/sources/2/country/data
+```{r}
+# Select the countries or regions
+location = c("ECA","SSA","SAS","LAC","MNA","EAP")
+```
+
+
+#### Time
+Here you will select the time frame for the data you are retrieving, by picking the first and last year of the time frame.
+```{r}
+# Selecting the time frame
+firstYear = 2008
+lastYear = 2017
+```
+
+## 3. API Call
+In this step, we will retrieve the data using the World Bank API call. The package "WDI" can request information from the World Bank database ... MORE HERE
+
+```{r}
+data = WDI(indicator=dataSeries, country=location, start=firstYear, end=lastYear)
+```
+If you want a quick preview of your freshly retrieved DataFrame, you can print just the first 5 lines
+```{r}
+head(data)
+```
+
+
+## 4. Explore the data!
+Congratulations! At this point you should have the **long-term external debt stock** for **regions** (excluding high-income economies) from **2008 - 2017** all in a DataFrame called "data."
+
+Now we can do:
+
+- **Data Cleaning**: clean up the format to use in a table or to populate a visualization
+- **Visualization**: create a simple chart
+
+#### Data Cleaning
+As you saw in the preview of the data in section 3, the data needs some basic cleaning.
+
+The data for the long-term external debt stock is currently in units. To improve a table's or chart's readability, I will convert the units to billions and change the visible decimal places to zero.
+```{r}
+# change units to billions
+data$DT.DOD.DLXF.CD = data$DT.DOD.DLXF.CD/1000000000
+```
+
+```{r}
+# hide decimal places
+data$DT.DOD.DLXF.CD = round(data$DT.DOD.DLXF.CD, 0)
+```
+
+These next sections of code will clean up the naming of headers and data. First, it will rename the column headers. Second, it will remove the redundant "(excluding high income)" from the region names. We can instead include that information in the title of the legend.Finally, it will remove the "iso2c" column.
+```{r}
+# rename column headers
+colnames(data)[colnames(data)=="country"] <- "Region"
+colnames(data)[colnames(data)=="DT.DOD.DLXF.CD"] <- "ExternalDebtStocks"
+colnames(data)[colnames(data)=="year"] <- "Year"
+```
+
+```{r}
+# remove "(excluding high income)" from each of the region names
+data$Region <- gsub("excluding high income", "", data$Region)
+# removes the parenthesis
+data$Region <- gsub("\\()", "", data$Region)
+
+```
+
+```{r}
+# remove the iso2c column
+data <- subset(data, select = -c(iso2c))
+```
+
+Now our data should be ready to present in a table or visualize. Let's take a look at the first five lines again so we can compare the cleaned up data to the output in section 3.
+```{r}
+head(data)
+```
+
+#### Data Visualization
+
+I will use the package "Plotly" to create a line graph, similar to one from the blog post on the [launch of IDS 2019](http://blogs.worldbank.org/opendata/international-debt-statistics-2019-external-debt-stocks-end-2017-stood-over-7-trillion).
+```{r}
+p<-plot_ly(
+  data, x = ~Year, y=~ExternalDebtStocks, 
+  type="scatter", mode = "lines", 
+  hoverinfo = "text",
+  text=~paste("External Debt Stock: $",ExternalDebtStocks, "B", "<br>Region: ",Region, "<br>Year: ",Year),
+  color=~Region)%>%
+  layout(
+    title= "Long-term External Debt Stocks ($ billion)"
+  )
+p
+```
+
