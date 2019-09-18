@@ -1,9 +1,11 @@
-﻿location,code
+locationName,locationCode
 Aruba,ABW
 Afghanistan,AFG
+Africa,AFR
 Angola,AGO
 Albania,ALB
 Andorra,AND
+Andean Region,ANR
 Arab World,ARB
 United Arab Emirates,ARE
 Argentina,ARG
@@ -14,31 +16,42 @@ Australia,AUS
 Austria,AUT
 Azerbaijan,AZE
 Burundi,BDI
+East Asia & Pacific (IBRD-only countries),BEA
+Europe & Central Asia (IBRD-only countries),BEC
 Belgium,BEL
 Benin,BEN
 Burkina Faso,BFA
 Bangladesh,BGD
 Bulgaria,BGR
+IBRD countries classified as high income,BHI
 Bahrain,BHR
 "Bahamas, The",BHS
 Bosnia and Herzegovina,BIH
+Latin America & the Caribbean (IBRD-only countries),BLA
 Belarus,BLR
 Belize,BLZ
+Middle East & North Africa (IBRD-only countries),BMN
 Bermuda,BMU
 Bolivia,BOL
 Brazil,BRA
 Barbados,BRB
 Brunei Darussalam,BRN
+Sub-Saharan Africa (IBRD-only countries),BSS
 Bhutan,BTN
 Botswana,BWA
+Sub-Saharan Africa (IFC classification),CAA
 Central African Republic,CAF
 Canada,CAN
+East Asia and the Pacific (IFC classification),CEA
 Central Europe and the Baltics,CEB
+Europe and Central Asia (IFC classification),CEU
 Switzerland,CHE
 Channel Islands,CHI
 Chile,CHL
 China,CHN
 Cote d'Ivoire,CIV
+Latin America and the Caribbean (IFC classification),CLA
+Middle East and North Africa (IFC classification),CME
 Cameroon,CMR
 "Congo, Dem. Rep.",COD
 "Congo, Rep.",COG
@@ -46,17 +59,29 @@ Colombia,COL
 Comoros,COM
 Cabo Verde,CPV
 Costa Rica,CRI
+South Asia (IFC classification),CSA
 Caribbean small states,CSS
 Cuba,CUB
 Curacao,CUW
 Cayman Islands,CYM
 Cyprus,CYP
 Czech Republic,CZE
+East Asia & Pacific (IDA-eligible countries),DEA
+Europe & Central Asia (IDA-eligible countries),DEC
 Germany,DEU
+IDA countries classified as Fragile Situations,DFS
 Djibouti,DJI
+Latin America & the Caribbean (IDA-eligible countries),DLA
 Dominica,DMA
+Middle East & North Africa (IDA-eligible countries),DMN
+IDA countries not classified as Fragile Situations,DNF
 Denmark,DNK
+IDA countries in Sub-Saharan Africa not classified as fragile situations ,DNS
 Dominican Republic,DOM
+South Asia (IDA-eligible countries),DSA
+IDA countries in Sub-Saharan Africa classified as fragile situations ,DSF
+Sub-Saharan Africa (IDA-eligible countries),DSS
+"IDA total, excluding Sub-Saharan Africa",DXS
 Algeria,DZA
 East Asia & Pacific (excluding high income),EAP
 Early-demographic dividend,EAR
@@ -77,6 +102,7 @@ Fiji,FJI
 France,FRA
 Faroe Islands,FRO
 "Micronesia, Fed. Sts.",FSM
+"IDA countries classified as fragile situations, excluding Sub-Saharan Africa",FXS
 Gabon,GAB
 United Kingdom,GBR
 Georgia,GEO
@@ -99,6 +125,7 @@ Heavily indebted poor countries (HIPC),HPC
 Croatia,HRV
 Haiti,HTI
 Hungary,HUN
+"IBRD, including blend",IBB
 IBRD only,IBD
 IDA & IBRD total,IBT
 IDA total,IDA
@@ -131,7 +158,8 @@ Lebanon,LBN
 Liberia,LBR
 Libya,LBY
 St. Lucia,LCA
-Latin America & Caribbean,LCN
+Latin America & Caribbean ,LCN
+Latin America and the Caribbean,LCR
 Least developed countries: UN classification,LDC
 Low income,LIC
 Liechtenstein,LIE
@@ -146,8 +174,10 @@ Latvia,LVA
 "Macao SAR, China",MAC
 St. Martin (French part),MAF
 Morocco,MAR
+Central America,MCA
 Monaco,MCO
 Moldova,MDA
+Middle East (developing only),MDE
 Madagascar,MDG
 Maldives,MDV
 Middle East & North Africa,MEA
@@ -168,15 +198,19 @@ Mauritius,MUS
 Malawi,MWI
 Malaysia,MYS
 North America,NAC
+North Africa,NAF
 Namibia,NAM
 New Caledonia,NCL
 Niger,NER
 Nigeria,NGA
 Nicaragua,NIC
 Netherlands,NLD
+"Non-resource rich Sub-Saharan Africa countries, of which landlocked",NLS
 Norway,NOR
 Nepal,NPL
+Non-resource rich Sub-Saharan Africa countries,NRS
 Nauru,NRU
+"IDA countries not classified as fragile situations, excluding Sub-Saharan Africa",NXS
 New Zealand,NZL
 OECD members,OED
 Oman,OMN
@@ -199,10 +233,13 @@ Post-demographic dividend,PST
 French Polynesia,PYF
 Qatar,QAT
 Romania,ROU
+Resource rich Sub-Saharan Africa countries,RRS
+"Resource rich Sub-Saharan Africa countries, of which oil exporters",RSO
 Russian Federation,RUS
 Rwanda,RWA
 South Asia,SAS
 Saudi Arabia,SAU
+Southern Cone,SCE
 Sudan,SDN
 Senegal,SEN
 Singapore,SGP
@@ -214,7 +251,7 @@ Somalia,SOM
 Serbia,SRB
 Sub-Saharan Africa (excluding high income),SSA
 South Sudan,SSD
-Sub-Saharan Africa,SSF
+Sub-Saharan Africa ,SSF
 Small states,SST
 Sao Tome and Principe,STP
 Suriname,SUR
@@ -223,6 +260,7 @@ Slovenia,SVN
 Sweden,SWE
 Eswatini,SWZ
 Sint Maarten (Dutch part),SXM
+Sub-Saharan Africa excluding South Africa,SXZ
 Seychelles,SYC
 Syrian Arab Republic,SYR
 Turks and Caicos Islands,TCA
@@ -233,9 +271,7 @@ Togo,TGO
 Thailand,THA
 Tajikistan,TJK
 Turkmenistan,TKM
-,TLA
-ribbean (IDA & IBRD countries),he 
-,le>
+Latin America & the Caribbean (IDA & IBRD countries),TLA
 Timor-Leste,TLS
 Middle East & North Africa (IDA & IBRD countries),TMN
 Tonga,TON
@@ -245,6 +281,7 @@ Trinidad and Tobago,TTO
 Tunisia,TUN
 Turkey,TUR
 Tuvalu,TUV
+"Taiwan, China",TWN
 Tanzania,TZA
 Uganda,UGA
 Ukraine,UKR
@@ -261,6 +298,7 @@ Vanuatu,VUT
 World,WLD
 Samoa,WSM
 Kosovo,XKX
+Sub-Saharan Africa excluding South Africa and Nigeria,XZN
 "Yemen, Rep.",YEM
 South Africa,ZAF
 Zambia,ZMB
