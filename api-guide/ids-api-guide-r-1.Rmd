@@ -10,7 +10,8 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 ### *R*
 Date: 05/22/2019 <br>
 [Data source](https://datacatalog.worldbank.org/dataset/international-debt-statistics)<br>
-[Developer Information](https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information)
+[Developer Information](https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information)<br>
+[GitHub](https://github.com/worldbank/debt-data/tree/master/api-guide)
 
 This is first part of a two-part series on accessing the International Debt Statistics (IDS) database through the World Bank Data API. In this part, we will query the World Bank Data API to retrieve indicator names and location codes. In [Part 2](https://worldbank.github.io/debt-data/api-guide/ids-api-guide-r-2.html), we will use that information to explore the **regional trends of long-term external debt stocks** from the IDS database. <br>
 The following code in this guide will show step-by-step how to:
