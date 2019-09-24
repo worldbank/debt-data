@@ -197,7 +197,7 @@ $(document).ready(function () {
 <h2>Part 1 - Query the API: indicators and locations</h2>
 <div id="r" class="section level3">
 <h3><em>R</em></h3>
-<p>Date: 05/22/2019 <br> <a href="https://datacatalog.worldbank.org/dataset/international-debt-statistics">Data source</a><br> <a href="https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information">Developer Information</a><br> <a href="https://github.com/worldbank/debt-data/tree/master/api-guide">GitHub</a></p>
+<p>Date: 09/25/2019 <br> <a href="https://datacatalog.worldbank.org/dataset/international-debt-statistics">Data source</a><br> <a href="https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information">Developer Information</a><br> <a href="https://github.com/worldbank/debt-data/tree/master/api-guide">GitHub</a></p>
 <p>This is first part of a two-part series on accessing the International Debt Statistics (IDS) database through the World Bank Data API. In this part, we will query the World Bank Data API to retrieve indicator names and location codes. In <a href="https://worldbank.github.io/debt-data/api-guide/ids-api-guide-r-2.html">Part 2</a>, we will use that information to explore the <strong>regional trends of long-term external debt stocks</strong> from the IDS database. <br> The following code in this guide will show step-by-step how to:</p>
 <ol style="list-style-type: decimal">
 <li>Setup up your environment with the needed R packages</li>
@@ -303,7 +303,7 @@ locationResponse &lt;- content(locationRequest, as = &quot;text&quot;, encoding 
 # Parse the JSON content and convert it to a data frame. 
 locationsJSON &lt;- fromJSON(locationResponse, flatten = TRUE) %&gt;%
   data.frame()</code></pre>
-<p>From this list of locations, we need to pick one or more locations and then find the corresponding IDs and names Because there are so many locations, the results are also saved as <a href="https://github.com/worldbank/debt-data/blob/master/location-codes.csv">location-codes csv</a>*.</p>
+<p>From this list of locations, we need to pick one or more locations and then find the corresponding IDs and names Because there are so many locations, the results are also saved as [location-codes csv](<a href="https://github.com/worldbank/debt-data/blob/master/api-guide/location-codes.csv*" class="uri">https://github.com/worldbank/debt-data/blob/master/api-guide/location-codes.csv*</a>.</p>
 <p>*The location-codes csv was created using the API query: <a href="http://api.worldbank.org/v2/sources/2/country/data" class="uri">http://api.worldbank.org/v2/sources/2/country/data</a></p>
 <pre class="r"><code># Createa list of the location IDs and names
 cols &lt;- c(&quot;id&quot;,&quot;name&quot;)

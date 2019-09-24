@@ -13123,7 +13123,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Date: 05/22/2019 <br>
+<p>Date: 09/25/2019 <br>
 <a href="https://datacatalog.worldbank.org/dataset/international-debt-statistics">Data source</a><br>
 <a href="https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information">Developer Information</a><br>
 <a href="https://github.com/worldbank/debt-data/tree/master/api-guide">GitHub</a></p>
@@ -13206,7 +13206,7 @@ div#notebook {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get all topic names from the World Bank API</span>
 <span class="n">topics</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/topic?format=json&quot;</span><span class="p">)</span>
 <span class="n">topicsJSON</span> <span class="o">=</span> <span class="n">topics</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-<span class="c1">#print(responseJSON) # if you want to view the JSON response as is, remove the &quot;#&quot; at the beginning of the print command</span>
+<span class="c1">#print(topicsJSON) # if you want to view the JSON response as is, remove the &quot;#&quot; at the beginning of the print command</span>
 
 <span class="c1"># Parse through the response to see the topic names and ID numbers.</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">topicsJSON</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
@@ -13283,7 +13283,7 @@ div#notebook {
 <span class="n">indicatorsJSON</span> <span class="o">=</span> <span class="n">indicators</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
 <span class="c1"># Print the total number of indicators</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">indicatorsJSON</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;total&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There are &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">indicatorsJSON</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;total&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; IDS indicators&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13300,7 +13300,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>229
+<pre>There are 229 IDS indicators
 </pre>
 </div>
 </div>
@@ -13355,11 +13355,11 @@ div#notebook {
 <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;DT.DOD.DLXF.CD&quot;</span>
 
 <span class="c1"># Parse through the response to get the &quot;sourceNote&quot; or definition for the desired indicator</span>
-<span class="k">for</span> <span class="n">dict_entity</span> <span class="ow">in</span> <span class="n">indicatorsJSON</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">dict_entity</span> <span class="ow">in</span> <span class="n">indicatorsJSON</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
     <span class="k">if</span> <span class="n">dict_entity</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">dict_entity</span><span class="p">[</span><span class="s2">&quot;sourceNote&quot;</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Try a different code&quot;</span><span class="p">)</span>
+        <span class="k">pass</span>
 </pre></div>
 
     </div>
@@ -13396,7 +13396,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2.-Location-API-Queries">2. Location API Queries<a class="anchor-link" href="#2.-Location-API-Queries">&#182;</a></h2><p>Now that we have the indicator code, we need to select a location. To select a location by country, region, or income level category you will need to know its 2 or 3 letter code. This section will show you how to use similar API queries to pull the location names and codes.</p>
+<h2 id="3.-Location-API-Queries">3. Location API Queries<a class="anchor-link" href="#3.-Location-API-Queries">&#182;</a></h2><p>Now that we have the indicator code, we need to select a location. To select a location by country, region, or income level category you will need to know its 2 or 3 letter code. This section will show you how to use similar API queries to pull the location names and codes.</p>
 <p>For more information on this visit the <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/898590-country-api-queries">Data Help Desk</a>.</p>
 <p>When pulling the list of locations, I will set the per_page result to 300, as there will too many results to display on one page.</p>
 
@@ -13422,7 +13422,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>From this list of locations, we need to pick one or more locations and then find the corresponding IDs and names. Because there are so many locations, the results are also saved as <a href="https://github.com/worldbank/debt-data/blob/master/location-codes.csv">location-codes csv</a>*</p>
+<p>From this list of locations, we need to pick one or more locations and then find the corresponding IDs and names. Because there are so many locations, the results are also saved as <a href="https://github.com/worldbank/debt-data/blob/master/api-guide/location-codes.csv">location-codes csv</a>*</p>
 <h6 id="*The-location-codes-csv-was-created-using-the-API-query:-http://api.worldbank.org/v2/sources/2/country/data">*The location-codes csv was created using the API query: <a href="http://api.worldbank.org/v2/sources/2/country/data">http://api.worldbank.org/v2/sources/2/country/data</a><a class="anchor-link" href="#*The-location-codes-csv-was-created-using-the-API-query:-http://api.worldbank.org/v2/sources/2/country/data">&#182;</a></h6>
 </div>
 </div>

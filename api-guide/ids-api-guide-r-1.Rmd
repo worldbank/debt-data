@@ -8,7 +8,7 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 ## Part 1 - Query the API: indicators and locations
 ### *R*
-Date: 05/22/2019 <br>
+Date: 09/25/2019 <br>
 [Data source](https://datacatalog.worldbank.org/dataset/international-debt-statistics)<br>
 [Developer Information](https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information)<br>
 [GitHub](https://github.com/worldbank/debt-data/tree/master/api-guide)
@@ -118,7 +118,7 @@ locationsJSON <- fromJSON(locationResponse, flatten = TRUE) %>%
   data.frame()
 ```
 
-From this list of locations, we need to pick one or more locations and then find the corresponding IDs and names Because there are so many locations, the results are also saved as [location-codes csv](https://github.com/worldbank/debt-data/blob/master/location-codes.csv)*.
+From this list of locations, we need to pick one or more locations and then find the corresponding IDs and names Because there are so many locations, the results are also saved as [location-codes csv](https://github.com/worldbank/debt-data/blob/master/api-guide/location-codes.csv*.
 
 *The location-codes csv was created using the API query: http://api.worldbank.org/v2/sources/2/country/data
 ```{r}
