@@ -13312,11 +13312,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<<<<<<< Updated upstream
-<p>The above code shows that there are 229 (UPDATE) indicators in the External Debt topic. When submitting our new query to the API, we will take this into account by setting the "per_page" parameter to 250. This will allow us to view all the results with one query, instead of having to request multiple pages. Then we can parse through the result to explore the different indicator names and corresponding IDs. Because there are so many indicators, the results are also saved as "ids-indicators.csv." (LINK NEEDED)</p>
-=======
 <p>The above code shows the number of indicators in the External Debt topic. When submitting our new query to the API, we will take this into account by setting the "per_page" parameter to 600. This will allow us to view all the results with one query, instead of having to request multiple pages. Then we can parse through the result to explore the different indicator names and corresponding IDs. Because there are so many indicators, the results are also saved as "ids-indicators.csv." (LINK NEEDED)</p>
->>>>>>> Stashed changes
 
 </div>
 </div>
@@ -13326,7 +13322,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get all External Debt indicators, with a per_page parameter of 250.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get all External Debt indicators, with a per_page parameter of 600.</span>
 <span class="n">indicators</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/topic/20/indicator?per_page=600&amp;format=json&quot;</span><span class="p">)</span>
 <span class="n">indicatorsJSON</span> <span class="o">=</span> <span class="n">indicators</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 <span class="c1">#print(indicatorsJSON) # to view ALL of the indicators as is, remove the &quot;#&quot; at the beginning of the print command</span>
