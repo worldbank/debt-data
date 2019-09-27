@@ -82,7 +82,7 @@ Here you will select the time frame for the data you are retrieving, by picking 
 ```{r}
 # Selecting the time frame
 firstYear = 2008
-lastYear = 2017
+lastYear = 2018
 ```
 
 ## 3. API Call
