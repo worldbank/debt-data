@@ -1,7 +1,9 @@
-## Coming soon
-## Connecting to the IDS database using APIs in Python and R
+## Accessing International Debt Statistics (IDS) through the World Bank Data API
 
-To encourage the exploration and analysis of the World Bank's International Debt Statistics data, we published these step-by-step guides on how to access debt data using the World Bank Data API.
+Use the step-by-step guides below to learn how to access the International Debt Statistics (IDS) database using the World Bank Data API.
+The two-part guides are available in both Python and R. You will learn how to query the World Bank Data API to retrieve the
+available database topics (such as External Debt, Education, Trade, etc.), the corresponding indicators, and available countries, regions,
+or income level categories. Using those parameters, along with years, you will create a data series and an interactive chart.
 
 ### Part 1 - Query the API: Indicators and locations:
 **[Python Guide](https://worldbank.github.io/debt-data/api-guide/ids-api-guide-python-1.html)** <br>
