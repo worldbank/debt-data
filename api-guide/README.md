@@ -5,6 +5,8 @@ The two-part guides are available in both Python and R. You will learn how to qu
 available database topics (such as External Debt, Education, Trade, etc.), the corresponding indicators, and available countries, regions,
 or income level categories. Using those parameters, along with years, you will create a data series and an interactive chart.
 
+For readability and ease of access, the links below take you to the GitHub Page for each guide.
+
 ### Part 1 - Query the API: Indicators and locations:
 **[Python Guide](https://worldbank.github.io/debt-data/api-guide/ids-api-guide-python-1.html)** <br>
 **[R Guide](https://worldbank.github.io/debt-data/api-guide/ids-api-guide-r-1.html)**
