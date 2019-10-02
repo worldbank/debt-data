@@ -1,0 +1,133 @@
+---
+title: "Accessing International Debt Statistics (IDS) through the World Bank Data API"
+output: html_document
+---
+```{r global_options, include=FALSE}
+#removing all warnings and messages from the doc that appear when loading the packages
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+## Part 1 - Query the API: indicators and locations
+### *R*
+Date: 10/2/2019 <br>
+[Data source](https://datacatalog.worldbank.org/dataset/international-debt-statistics)<br>
+[Developer Information](https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information)<br>
+[GitHub](https://github.com/worldbank/debt-data/tree/master/api-guide)
+
+This is first part of a two-part series on accessing the International Debt Statistics (IDS) database through the World Bank Data API. In this part, we will query the World Bank Data API to retrieve indicator names and location codes. <br><br>
+The following code in this guide will show step-by-step how to:
+
+1. Setup up your environment with the needed R packages
+2. Create Indicator API Queries
+3. Create Location API Queries
+
+## 1. Setup
+To start, make sure you have the following packages installed on your machine. To install an R package, type install.packages("wbstats") with the correct package name into R. You can also visit each of the linked packages for reference.
+
+- [wbstats](https://cran.r-project.org/web/packages/wbstats/vignettes/Using_the_wbstats_package.html): Searching and downloading data from the World Bank Data API
+- [httr](https://cran.r-project.org/web/packages/httr/index.html): Submitting HTTP requests
+- [jsonlite](https://cran.r-project.org/web/packages/jsonlite/index.html): Parsing json response
+- [tidyverse](https://cran.r-project.org/web/packages/tidyverse/index.html):  Data work
+
+
+Then, open up your preferred mode of writing R, like [R Studio](https://www.rstudio.com/). Now follow the rest of the steps below to query the World Bank Data API to find your indicator and location codes.
+
+```{r}
+library(wbstats)
+library(httr)
+library(jsonlite)
+library(tidyverse)
+```
+
+## 2. Indicator API Queries
+To get a data series from the World Bank Data's API, you first need to use an "indicator code." For example, the indicator code for long-term external debt stock is "DT.DOD.DLXF.CD." These indicator codes can be found in the [World Bank Data Catalog](https://datacatalog.worldbank.org/), but you can also use the API to explore and select indicators. In this section, we will guide you through going from a debt related idea to using the World Bank Data API to select an indictor code.
+
+More information on indicator API queries can also be found through the [Data Help Desk](https://datahelpdesk.worldbank.org/knowledgebase/articles/898599-indicator-api-queries).
+
+#### Getting the Source ID for International Debt Statistics
+
+To find the indicator code, we will first need to specify the API source. The World Bank Data API has numerous sources, including one specific to International Debt Statistics.
+
+The following GET request will get us every source from the World Bank Data API. However, the request is returned in a json format that is difficult to read as is, so we will include some code to parse through it. Then we can see each source name and ID available in the World Bank Data API to find IDS.
+
+```{r}
+# Get all the source names from the World Bank API
+sourceRequest <- GET(url = "http://api.worldbank.org/v2/sources?format=json")
+sourceResponse <- content(sourceRequest, as = "text", encoding = "UTF-8")
+
+# Parse the JSON content and convert it to a data frame.
+sourceJSON <- fromJSON(sourceResponse, flatten = TRUE) %>%
+  data.frame()
+
+# Print the data frame and review the source names and ids
+cols <- c("id","name")
+sourceJSON[,cols]
+```
+From the above result, you can see that "International Debt Statistics" is has a source ID of 6. We will add that source ID to the end of our API queries.
+
+#### Getting the Indicator code
+
+Now that we have the source ID for the topic "External Debt," we can make another request to the World Bank API to receive all of the indicator names and codes associated with that source. 
+
+In this API response, the default number of results on each page is 50, so we will set the "per_page" parameter to 500. This will allow us to view all the results with one query, instead of having to request multiple pages. Then we can parse through the result to explore the different indicator Names and corresponding IDs.
+
+```{r}
+# make request to World Bank API
+indicatorRequest <- GET(url = "http://api.worldbank.org/v2/indicator?per_page=500&format=json&source=6")
+indicatorResponse <- content(indicatorRequest, as = "text", encoding = "UTF-8")
+
+# Parse the JSON content and convert it to a data frame.
+indicatorsJSON <- fromJSON(indicatorResponse, flatten = TRUE) %>%
+  data.frame()
+
+# Print and review the indicator names and ids from the dataframe
+cols <- c("id","name")
+#indicatorsJSON[,cols] # to view all the indicator names, remove the # at the beginning of this line. Please note that there are over 500 indicators.
+```
+
+The result gives us all of the External Debt indicators and their codes. You can also view the IDS indicators and codes in their hierarchical order on our [data tables](http://datatopics.worldbank.org/debt/ids/). The Analytical view shows the select indicators from the IDS publication and the Standard view shows all available indicators.
+
+The indicator and code we want is "DT.DOD.DLXF.CD External debt stocks, long-term (DOD, current US$)." Before using this data, we need to understand its full definition. You can use an API query to get that information as well.
+
+```{r}
+# use the indicator code to define the "indicator" variable
+indicator <- "DT.DOD.DLXF.CD"
+
+
+# use the above indicator code to find associate "sourceNote" or definition
+definition <- which(indicatorsJSON$id == indicator)
+print(indicatorsJSON$sourceNote[definition])
+
+```
+
+By using the API queries above, we were able sort through the World Bank Data API sources to find IDS, find "External Debt," explore the corresponding indicators, and then select one indicator of interest and find its ID and definition.
+
+## 3. Location API Queries
+
+Now that we have the indicator code, we need to select a location. To select a location by country, region, or income level category you will need to know its 2 or 3 letter code. This section will show you how to use similar API queries to pull the location names and codes.
+
+For more information on location API queries visit the [Data Help Desk](https://datahelpdesk.worldbank.org/knowledgebase/articles/898590-country-api-queries).
+
+When pulling the list of locations, I will set the per_page result to 300.
+
+```{r}
+# Make request to World Bank API
+locationRequest <- GET(url = "http://api.worldbank.org/v2/country?per_page=300&format=json&source=6")
+locationResponse <- content(locationRequest, as = "text", encoding = "UTF-8")
+
+# Parse the JSON content and convert it to a data frame.
+locationsJSON <- fromJSON(locationResponse, flatten = TRUE) %>%
+  data.frame()
+
+# Create a dataframe with the location codes and names
+cols <- c("id","name")
+locationList <- locationsJSON[,cols]
+
+# locationList[,cols] # To see all of the locations and location codes remove the "#" at the beginning of this line
+#We can view the first 25 entries below
+locationList[1:25,]
+```
+
+From this list of locations, we can now pick one or more locations and the corresponding location code. Such as ARG - Argentina or EAP - East Asia & Pacific. The results from this query are also saved as [location-codes csv](https://github.com/worldbank/debt-data/blob/master/api-guide/location-codes.csv)*.
+
+*The location-codes csv was created using the API query: http://api.worldbank.org/v2/sources/2/country/data
+
