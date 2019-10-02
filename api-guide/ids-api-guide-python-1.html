@@ -13204,13 +13204,17 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get all sources from the World Bank API</span>
-<span class="n">sources</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/sources?format=json&quot;</span><span class="p">)</span>
+<span class="n">sources</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/sources?per_page=100&amp;format=json&quot;</span><span class="p">)</span>
 <span class="n">sourcesJSON</span> <span class="o">=</span> <span class="n">sources</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 <span class="c1">#print(sourcesJSON) # if you want to view the JSON response as is, remove the &quot;#&quot; at the beginning of the print command</span>
 
 <span class="c1"># Parse through the response to see the source names and ID numbers.</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sourcesJSON</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;International Debt Statistics&quot;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The source ID for International Debt Statistics is &quot;</span> <span class="o">+</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="c1">#print(i[&quot;id&quot;],i[&quot;name&quot;]) # to see all the source names and IDs, remove the # at the beginning of this line</span>
 </pre></div>
 
     </div>
@@ -13227,56 +13231,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1 Doing Business
-5 Subnational Malnutrition Database
-6 International Debt Statistics
-11 Africa Development Indicators
-12 Education Statistics
-13 Enterprise Surveys
-14 Gender Statistics
-15 Global Economic Monitor
-16 Health Nutrition and Population Statistics
-18 IDA Results Measurement System
-19 Millennium Development Goals
-20 Quarterly Public Sector Debt
-22 Quarterly External Debt Statistics SDDS
-23 Quarterly External Debt Statistics GDDS
-24 Poverty and Equity
-25 Jobs
-27 Global Economic Prospects
-28 Global Financial Inclusion
-29 The Atlas of Social Protection: Indicators of Resilience and Equity
-30 Exporter Dynamics Database – Indicators at Country-Year Level
-31 Country Policy and Institutional Assessment
-32 Global Financial Development
-33 G20 Financial Inclusion Indicators
-34 Global Partnership for Education
-35 Sustainable Energy for All
-36 Statistical Capacity Indicators
-37 LAC Equity Lab
-38 Subnational Poverty
-39 Health Nutrition and Population Statistics by Wealth Quintile
-40 Population estimates and projections
-41 Country Partnership Strategy for India (FY2013 - 17)
-44 Readiness for Investment in Sustainable Energy
-45 Indonesia Database for Policy and Economic Research
-46 Sustainable Development Goals 
-54 Joint External Debt Hub
-60 Economic Fitness
-61 PPPs Regulatory Quality
-62 International Comparison Program (ICP) 2011
-63 Human Capital Index
-65 Health Equity and Financial Protection Indicators
-66 Logistics Performance Index
-67 PEFA 2011
-68 PEFA 2016
-69 Global Financial Inclusion and Consumer Protection Survey
-70 Economic Fitness 2
-71 International Comparison Program (ICP) 2005
-72 PEFA_Test
-73 Global Financial Inclusion and Consumer Protection Survey (Internal)
-74 Macro Poverty Outlook External
-75 Environment, Social and Governance (ESG) Data
+<pre>The source ID for International Debt Statistics is 6
 </pre>
 </div>
 </div>
@@ -13436,7 +13391,7 @@ The indicator and code we want is "DT.DOD.DLXF.CD External debt stocks, long-ter
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>By using the API queries above, we were able to find the IDS API source ID, sort through the World Bank Data API topics, find "External Debt," explore the corresponding indicators, and then select one indicator of interest and find its ID and definition.</p>
+<p>By using the API queries above, we were able to sort through the World Bank Data API sources to find IDS, explore the corresponding indicators, and then select one indicator of interest and find its ID and definition.</p>
 
 </div>
 </div>
