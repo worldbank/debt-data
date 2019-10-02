@@ -13123,7 +13123,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Date: 09/25/2019 <br>
+<p>Date: 10/2/2019 <br>
 <a href="https://datacatalog.worldbank.org/dataset/international-debt-statistics">Data source</a><br>
 <a href="https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information">Developer Information</a><br>
 <a href="https://github.com/worldbank/debt-data/tree/master/api-guide">GitHub</a></p>
@@ -13134,7 +13134,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is first part of a two-part series on accessing the International Debt Statistics (IDS) database through the World Bank Data API. In this part, we will query the World Bank Data API to retrieve indicator names and location codes. In <a href="https://worldbank.github.io/debt-data/api-guide/ids-api-guide-python-2.html">Part 2</a>, we will use that information to explore the <strong>regional trends of long-term external debt stocks</strong> from the IDS database.</p>
+<p>This is first part in a series on accessing the International Debt Statistics (IDS) database through the World Bank Data API. In this part, we will query the World Bank Data API to retrieve the indicator names (including the new ones!) and location codes.</p>
 <p>The following code in this guide will show step-by-step how to:</p>
 <ol>
 <li>Setup up your environment with the needed Python packages</li>
@@ -13176,8 +13176,15 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2.-Indicator-API-Queries">2. Indicator API Queries<a class="anchor-link" href="#2.-Indicator-API-Queries">&#182;</a></h2><p>To get a data series from the World Bank's API, you first need to use an "indicator code." For example, the indicator code for long-term external debt stock is "DT.DOD.DLXF.CD." These indicator codes can be found in the <a href="https://datacatalog.worldbank.org/">World Bank Data Catalog</a>, but you can also use the API to explore and select indicators. In this section, we will guide you through going from a topic idea to using the World Bank API to select an indictor code.</p>
-<p>More information on this can also be found through the <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/898599-indicator-api-queries">Data Help Desk</a>.</p>
+<h2 id="2.-Indicator-API-Queries">2. Indicator API Queries<a class="anchor-link" href="#2.-Indicator-API-Queries">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To get a data series from the World Bank Data API, you first to use an "indicator code." For example, the indicator code for long-term external debt stock is "DT.DOD.DLXF.CD." These indicator codes can be found in the <a href="https://datacatalog.worldbank.org/">World Bank Data Catalog</a>, but you can also use the API to explore and select indicators. In this section, we will guide you through going from a topic idea to using the World Bank Data API to select an indictor code.</p>
+<p>More information on indicator API queries can also be found through the <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/898599-indicator-api-queries">Data Help Desk</a>.</p>
 
 </div>
 </div>
@@ -13185,15 +13192,8 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>First, we should choose a topic. Topics are high level categories to which all indicators are mapped, such as Education, Trade, etc. The topic in this guide is "External Debt," but we will need the topic's ID in order to see all its corresonponding indicator names and codes.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Getting-the-Topic-ID-for-Debt">Getting the Topic ID for Debt<a class="anchor-link" href="#Getting-the-Topic-ID-for-Debt">&#182;</a></h4><p>The following GET request will get us every topic from the World Bank Data API. However, the request is returned in a json format that is difficult to read as is, so we will include some code to parse through it. Then we can see each topic name and ID available in the World Bank Data API.</p>
+<h4 id="Getting-the-Source-ID-for-International-Debt-Statistics">Getting the Source ID for International Debt Statistics<a class="anchor-link" href="#Getting-the-Source-ID-for-International-Debt-Statistics">&#182;</a></h4><p>To find the indicator code, we will first need to specify the API source. The World Bank Data API has numerous sources, including one specific to International Debt Statistics.</p>
+<p>The following GET request will get us every source from the World Bank Data API. However, the request is returned in a json format that is difficult to read as is, so we will include some code to parse through it. Then we can see each source name and ID available in the World Bank Data API to find IDS.</p>
 
 </div>
 </div>
@@ -13203,14 +13203,14 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get all topic names from the World Bank API</span>
-<span class="n">topics</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/topic?format=json&quot;</span><span class="p">)</span>
-<span class="n">topicsJSON</span> <span class="o">=</span> <span class="n">topics</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-<span class="c1">#print(topicsJSON) # if you want to view the JSON response as is, remove the &quot;#&quot; at the beginning of the print command</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get all sources from the World Bank API</span>
+<span class="n">sources</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/sources?format=json&quot;</span><span class="p">)</span>
+<span class="n">sourcesJSON</span> <span class="o">=</span> <span class="n">sources</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="c1">#print(sourcesJSON) # if you want to view the JSON response as is, remove the &quot;#&quot; at the beginning of the print command</span>
 
-<span class="c1"># Parse through the response to see the topic names and ID numbers.</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">topicsJSON</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
+<span class="c1"># Parse through the response to see the source names and ID numbers.</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sourcesJSON</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -13227,27 +13227,56 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1 Agriculture &amp; Rural Development
-2 Aid Effectiveness
-3 Economy &amp; Growth
-4 Education
-5 Energy &amp; Mining
-6 Environment
-7 Financial Sector
-8 Health
-9 Infrastructure
-10 Social Protection &amp; Labor
-11 Poverty
-12 Private Sector
-13 Public Sector
-14 Science &amp; Technology
-15 Social Development
-16 Urban Development
-17 Gender
-18 Millenium development goals
-19 Climate Change
-20 External Debt
-21 Trade
+<pre>1 Doing Business
+5 Subnational Malnutrition Database
+6 International Debt Statistics
+11 Africa Development Indicators
+12 Education Statistics
+13 Enterprise Surveys
+14 Gender Statistics
+15 Global Economic Monitor
+16 Health Nutrition and Population Statistics
+18 IDA Results Measurement System
+19 Millennium Development Goals
+20 Quarterly Public Sector Debt
+22 Quarterly External Debt Statistics SDDS
+23 Quarterly External Debt Statistics GDDS
+24 Poverty and Equity
+25 Jobs
+27 Global Economic Prospects
+28 Global Financial Inclusion
+29 The Atlas of Social Protection: Indicators of Resilience and Equity
+30 Exporter Dynamics Database – Indicators at Country-Year Level
+31 Country Policy and Institutional Assessment
+32 Global Financial Development
+33 G20 Financial Inclusion Indicators
+34 Global Partnership for Education
+35 Sustainable Energy for All
+36 Statistical Capacity Indicators
+37 LAC Equity Lab
+38 Subnational Poverty
+39 Health Nutrition and Population Statistics by Wealth Quintile
+40 Population estimates and projections
+41 Country Partnership Strategy for India (FY2013 - 17)
+44 Readiness for Investment in Sustainable Energy
+45 Indonesia Database for Policy and Economic Research
+46 Sustainable Development Goals 
+54 Joint External Debt Hub
+60 Economic Fitness
+61 PPPs Regulatory Quality
+62 International Comparison Program (ICP) 2011
+63 Human Capital Index
+65 Health Equity and Financial Protection Indicators
+66 Logistics Performance Index
+67 PEFA 2011
+68 PEFA 2016
+69 Global Financial Inclusion and Consumer Protection Survey
+70 Economic Fitness 2
+71 International Comparison Program (ICP) 2005
+72 PEFA_Test
+73 Global Financial Inclusion and Consumer Protection Survey (Internal)
+74 Macro Poverty Outlook External
+75 Environment, Social and Governance (ESG) Data
 </pre>
 </div>
 </div>
@@ -13259,7 +13288,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can now see that "External Debt" topic has the ID "20"</p>
+<p>From the above result, you can see that "International Debt Statistics" is has a source ID of 6. We will add that source ID to the end of our API queries.</p>
 
 </div>
 </div>
@@ -13267,8 +13296,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Getting-the-Indicator-code">Getting the Indicator code<a class="anchor-link" href="#Getting-the-Indicator-code">&#182;</a></h4><p>Now that we have the ID for the topic "External Debt," we can make another request to the World Bank API to receive all of the indicator names and codes associated with that topic. In the code below, notice that the ID for "External Debt" is placed in the URL between "topic" and "indicator."</p>
-<p>Most likely, there will be more External Debt indicators available than can fit on one page, the default is 50 results. So we will first print the "total" number of indicators. Then using that number we can adjust our API query.</p>
+<h4 id="Getting-the-Indicator-code">Getting the Indicator code<a class="anchor-link" href="#Getting-the-Indicator-code">&#182;</a></h4><p>Now that we have source ID for International Debt Statistics we can make another request to the World Bank API to receive all of the indicator names and codes associated with that source.</p>
 
 </div>
 </div>
@@ -13279,10 +13307,29 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Requesting the indicators for the topic External Debt</span>
-<span class="n">indicators</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/topic/20/indicator?format=json&quot;</span><span class="p">)</span>
+<span class="n">indicators</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/indicator?format=json&amp;source=6&quot;</span><span class="p">)</span>
 <span class="n">indicatorsJSON</span> <span class="o">=</span> <span class="n">indicators</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</pre></div>
 
-<span class="c1"># Print the total number of indicators</span>
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that we have the indicators, we can view the names and codes. The default number of results on each page is 50, but what if we want to see all the indicators on one page? Let's first print the "total" number of indicators. Then using that number we can adjust our API query.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Print the total number of indicators</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There are &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">indicatorsJSON</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;total&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; IDS indicators&quot;</span><span class="p">)</span>
 </pre></div>
 
@@ -13300,7 +13347,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>There are 229 IDS indicators
+<pre>There are 497 IDS indicators
 </pre>
 </div>
 </div>
@@ -13312,18 +13359,18 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The above code shows the number of indicators in the External Debt topic. When submitting our new query to the API, we will take this into account by setting the "per_page" parameter to 600. This will allow us to view all the results with one query, instead of having to request multiple pages. Then we can parse through the result to explore the different indicator names and corresponding IDs. Because there are so many indicators, the results are also saved as "ids-indicators.csv." (LINK NEEDED)</p>
+<p>The above code shows the number of indicators in the External Debt topic. When submitting our new query to the API, we will take this into account by setting the "per_page" parameter to 500. This will allow us to view all the results with one query, instead of having to request multiple pages. Then we can parse through the result to explore the different indicator names and corresponding IDs.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get all External Debt indicators, with a per_page parameter of 600.</span>
-<span class="n">indicators</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/topic/20/indicator?per_page=600&amp;format=json&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get all External Debt indicators, with a per_page parameter of 500.</span>
+<span class="n">indicators</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/indicator?format=json&amp;source=6&amp;per_page=500&quot;</span><span class="p">)</span>
 <span class="n">indicatorsJSON</span> <span class="o">=</span> <span class="n">indicators</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 <span class="c1">#print(indicatorsJSON) # to view ALL of the indicators as is, remove the &quot;#&quot; at the beginning of the print command</span>
 
@@ -13341,22 +13388,23 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The resulting list gives us all of the External Debt indicators and their codes. The indicator and code we want is "DT.DOD.DLXF.CD External debt stocks, long-term (DOD, current US$)." Before using this data, we need to understand its full definition. You can use an API query to get that information as well.</p>
+<p>The result gives us all of the External Debt indicators and their codes. You can also view the IDS indicators and codes in their hierarchical order on our <a href="http://datatopics.worldbank.org/debt/ids/">data tables</a>. The Analytical view shows the select indicators from the IDS publication and the Standard view shows all available indicators.
+The indicator and code we want is "DT.DOD.DLXF.CD External debt stocks, long-term (DOD, current US$)." Before using this data, we need to understand its full definition. You can use an API query to get that information as well.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Use the indicator code to define x</span>
-<span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;DT.DOD.DLXF.CD&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Use the indicator code to define the &quot;indicator&quot; variable</span>
+<span class="n">indicator</span> <span class="o">=</span> <span class="s2">&quot;DT.DOD.DLXF.CD&quot;</span>
 
 <span class="c1"># Parse through the response to get the &quot;sourceNote&quot; or definition for the desired indicator</span>
 <span class="k">for</span> <span class="n">dict_entity</span> <span class="ow">in</span> <span class="n">indicatorsJSON</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-    <span class="k">if</span> <span class="n">dict_entity</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dict_entity</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">indicator</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">dict_entity</span><span class="p">[</span><span class="s2">&quot;sourceNote&quot;</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">pass</span>
@@ -13388,7 +13436,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>By using the API queries above, we were able sort through the World Bank API topics, find "External Debt," explore the corresponding indicators, and then select one indicator of interest and find its ID and definition.</p>
+<p>By using the API queries above, we were able to find the IDS API source ID, sort through the World Bank Data API topics, find "External Debt," explore the corresponding indicators, and then select one indicator of interest and find its ID and definition.</p>
 
 </div>
 </div>
@@ -13397,33 +13445,9 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.-Location-API-Queries">3. Location API Queries<a class="anchor-link" href="#3.-Location-API-Queries">&#182;</a></h2><p>Now that we have the indicator code, we need to select a location. To select a location by country, region, or income level category you will need to know its 2 or 3 letter code. This section will show you how to use similar API queries to pull the location names and codes.</p>
-<p>For more information on this visit the <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/898590-country-api-queries">Data Help Desk</a>.</p>
-<p>When pulling the list of locations, I will set the per_page result to 300, as there will too many results to display on one page.</p>
+<p>For more information on location API queries visit the <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/898590-country-api-queries">Data Help Desk</a>.</p>
+<p>When pulling the list of locations, I will set the per_page result to 300.</p>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Requesting the locations</span>
-<span class="n">locations</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/country?per_page=300&amp;format=json&quot;</span><span class="p">)</span>
-<span class="n">locationsJSON</span> <span class="o">=</span> <span class="n">locations</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-<span class="c1">#print(locationsJSON) # if you want to view ALL of the indicators as is, remove the &quot;#&quot; at the beginning of the print command</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>From this list of locations, we need to pick one or more locations and then find the corresponding IDs and names. Because there are so many locations, the results are also saved as <a href="https://github.com/worldbank/debt-data/blob/master/api-guide/location-codes.csv">location-codes csv</a>*</p>
-<h6 id="*The-location-codes-csv-was-created-using-the-API-query:-http://api.worldbank.org/v2/sources/2/country/data">*The location-codes csv was created using the API query: <a href="http://api.worldbank.org/v2/sources/2/country/data">http://api.worldbank.org/v2/sources/2/country/data</a><a class="anchor-link" href="#*The-location-codes-csv-was-created-using-the-API-query:-http://api.worldbank.org/v2/sources/2/country/data">&#182;</a></h6>
 </div>
 </div>
 </div>
@@ -13432,7 +13456,12 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Parse through the response to see the location IDs and names</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Requesting the locations</span>
+<span class="n">locations</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/country?format=json&amp;source=6&amp;per_page=300&quot;</span><span class="p">)</span>
+<span class="n">locationsJSON</span> <span class="o">=</span> <span class="n">locations</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="c1">#print(locationsJSON) # if you want to view ALL of the indicators as is, remove the &quot;#&quot; at the beginning of the print command</span>
+
+<span class="c1"># Parse through the response to see the location IDs and names</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">locationsJSON</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
     <span class="n">locationCodes</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
     <span class="c1">#print(locationCodes) # to view the location ids and names, remove the &quot;#&quot; at the beginning of the print command</span>
@@ -13446,15 +13475,8 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>From the resulting list, you can select the location IDs for the countries or regions of interest.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Now-head-to-Part-2-of-this-series-to-find-out-how-to-use-the-indicator-and-location-codes-to-call-a-data-series-from-the-World-Bank-Data-API">Now head to Part 2 of this series to find out how to use the indicator and location codes to call a data series from the World Bank Data API<a class="anchor-link" href="#Now-head-to-Part-2-of-this-series-to-find-out-how-to-use-the-indicator-and-location-codes-to-call-a-data-series-from-the-World-Bank-Data-API">&#182;</a></h4><h3 id="Part-2---Get-and-explore-data"><a href="https://worldbank.github.io/debt-data/api-guide/ids-api-guide-python-2.html">Part 2 - Get and explore data</a><a class="anchor-link" href="#Part-2---Get-and-explore-data">&#182;</a></h3>
+<p>From this list of locations, we can now pick one or more locations and the corresponding location code. Such as ARG - Argentina or EAP - East Asia &amp; Pacific. The results from this query are also saved as <a href="https://github.com/worldbank/debt-data/blob/master/api-guide/location-codes.csv">location-codes csv</a>*</p>
+<h6 id="*The-location-codes-csv-was-created-using-the-API-query:-http://api.worldbank.org/v2/sources/2/country/data">*The location-codes csv was created using the API query: <a href="http://api.worldbank.org/v2/sources/2/country/data">http://api.worldbank.org/v2/sources/2/country/data</a><a class="anchor-link" href="#*The-location-codes-csv-was-created-using-the-API-query:-http://api.worldbank.org/v2/sources/2/country/data">&#182;</a></h6>
 </div>
 </div>
 </div>
