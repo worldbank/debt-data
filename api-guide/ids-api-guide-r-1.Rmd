@@ -66,7 +66,7 @@ From the above result, you can see that "International Debt Statistics" is has a
 
 #### Getting the Indicator code
 
-Now that we have the source ID for the topic "External Debt," we can make another request to the World Bank API to receive all of the indicator names and codes associated with that source. 
+Now that we have the source ID for International Debt Statistics. we can make another request to the World Bank API to receive all of the indicator names and codes associated with that source. 
 
 In this API response, the default number of results on each page is 50, so we will set the "per_page" parameter to 500. This will allow us to view all the results with one query, instead of having to request multiple pages. Then we can parse through the result to explore the different indicator Names and corresponding IDs.
 

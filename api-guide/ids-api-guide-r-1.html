@@ -295,7 +295,7 @@ sourceJSON[,cols]</code></pre>
 </div>
 <div id="getting-the-indicator-code" class="section level4">
 <h4>Getting the Indicator code</h4>
-<p>Now that we have the source ID for the topic “External Debt,” we can make another request to the World Bank API to receive all of the indicator names and codes associated with that source.</p>
+<p>Now that we have the source ID for International Debt Statistics. we can make another request to the World Bank API to receive all of the indicator names and codes associated with that source.</p>
 <p>In this API response, the default number of results on each page is 50, so we will set the “per_page” parameter to 500. This will allow us to view all the results with one query, instead of having to request multiple pages. Then we can parse through the result to explore the different indicator Names and corresponding IDs.</p>
 <pre class="r"><code># make request to World Bank API
 indicatorRequest &lt;- GET(url = &quot;http://api.worldbank.org/v2/indicator?per_page=500&amp;format=json&amp;source=6&quot;)
