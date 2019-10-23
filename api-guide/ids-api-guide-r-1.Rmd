@@ -62,7 +62,7 @@ sourceJSON <- fromJSON(sourceResponse, flatten = TRUE) %>%
 cols <- c("id","name")
 sourceJSON[,cols]
 ```
-From the above result, you can see that "International Debt Statistics" is has a source ID of 6. We will add that source ID to the end of our API queries.
+From the above result, you can see that "International Debt Statistics" has a source ID of 6. We will add that source ID to the end of our API queries.
 
 #### Getting the Indicator code
 
