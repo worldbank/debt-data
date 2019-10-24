@@ -21,13 +21,19 @@ The following code in this guide will show step-by-step how to:
 3. Create Location API Queries
 
 ## 1. Setup
-To start, make sure you have the following packages installed on your machine. To install an R package, type install.packages("wbstats") with the correct package name into R. You can also visit each of the linked packages for reference.
+To start, make sure you have the following packages installed on your machine.
 
 - [wbstats](https://cran.r-project.org/web/packages/wbstats/vignettes/Using_the_wbstats_package.html): Searching and downloading data from the World Bank Data API
 - [httr](https://cran.r-project.org/web/packages/httr/index.html): Submitting HTTP requests
 - [jsonlite](https://cran.r-project.org/web/packages/jsonlite/index.html): Parsing json response
 - [tidyverse](https://cran.r-project.org/web/packages/tidyverse/index.html):  Data work
 
+To install an R package, type `install.packages("wbstats")` with the correct package name into R. You can also visit each of the linked packages for reference.
+To install all the above packages you can execute the following coe:
+
+```{r install-prerequisites,eval=FALSE}
+install.packages(c("webstats", "httr", "jsonlite", "tidyverse"))
+```
 
 Then, open up your preferred mode of writing R, like [R Studio](https://www.rstudio.com/). Now follow the rest of the steps below to query the World Bank Data API to find your indicator and location codes.
 
