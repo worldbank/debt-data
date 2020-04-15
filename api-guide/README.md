@@ -10,4 +10,5 @@ For readability and ease of access, the links below take you to the GitHub Page 
 **[R Guide](https://worldbank.github.io/debt-data/api-guide/ids-api-guide-r-1.html)**
 
 ### Part 2 - Get and explore the data:
-(coming soon)
+**[Python Guide](https://worldbank.github.io/debt-data/api-guide/ids-api-guide-python-2.html)** <br>
+**[R Guide](https://worldbank.github.io/debt-data/api-guide/ids-api-guide-r-2.html)**
