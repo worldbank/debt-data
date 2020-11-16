@@ -13,16 +13,21 @@ Date: 11/16/2020 <br>
 For the first time in its almost half a century of existence, this year's publication of the World Bank's [International Debt Statistics (IDS)](https://data.worldbank.org/products/ids) added an additional dimension to the data - the creditor country. You can now see the public and publicly guaranteed sector debt of low- and middle-income countries owed to each creditor country, either official (multilateral or bilateral) or non-official (private creditor and bondholders), providing more detailed information on the borrower-lender relationship. This brief guides serves to introduce you to this new data breakdown and get you started in your own analysis.
 
 ***IDS Dimensions:***
+
 - Country (debtor country)
+
 - Series (Indicator, such as Total Debt Stock)
-- Time (now in yearly AND monthly)
+
+- Time
+
 - Counterpart area (creditor country) <- the new addition (default or total is "World")
 
-To understand how to view a full list of dimensions (and series definitions), please read [Part 1](https://worldbank.github.io/debt-data/api-guide/ids-api-guide-python-1.html) of our IDS API guides.
+
+To understand how to view a full list of dimensions (and series definitions), please read [Part 1](https://worldbank.github.io/debt-data/api-guide/ids-api-guide-r-1.html) of our IDS API guides.
 
 The following code and text will show step-by-step how to:
 
-1. Setup - getting your environment ready with the needed Python packages
+1. Setup - getting your environment ready with the needed R packages
 2. API Request - understanding the path and variables of the IDS API request
 3. Query data
 
@@ -44,7 +49,7 @@ library(plotly)
 ```
 
 ## 2. API Request
-In the previous guides, we used a Python package to wrap the API and present us with data. This time, in order to better understand API requests we will take a closer look at how each variable is presented in the URL.
+In the previous guides, we used an R package to wrap the API and present us with data. This time, in order to better understand API requests we will take a closer look at how each variable is presented in the URL.
 
 Below is an example of the 4 dimensional API request:
 http://api.worldbank.org/v2/sources/6/country/AGO/series/DT.DOD.BLAT.CD/counterpart-area/701/time/all
