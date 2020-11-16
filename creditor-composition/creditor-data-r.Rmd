@@ -1,0 +1,132 @@
+
+```{r global_options, include=FALSE}
+#removing all warnings and messages from the doc that appear when loading the packages
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+## Exploring Debt Data by Creditor Composition
+### *R*
+Date: 11/16/2020 <br>
+[Data source](https://datacatalog.worldbank.org/dataset/international-debt-statistics)<br>
+[Developer Information](https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information)<br>
+[GitHub](https://github.com/worldbank/debt-data/tree/master/api-guide)
+
+For the first time in its almost half a century of existence, this year's publication of the World Bank's [International Debt Statistics (IDS)](https://data.worldbank.org/products/ids) added an additional dimension to the data - the creditor country. You can now see the public and publicly guaranteed sector debt of low- and middle-income countries owed to each creditor country, either official (multilateral or bilateral) or non-official (private creditor and bondholders), providing more detailed information on the borrower-lender relationship. This brief guides serves to introduce you to this new data breakdown and get you started in your own analysis.
+
+***IDS Dimensions:***
+- Country (debtor country)
+- Series (Indicator, such as Total Debt Stock)
+- Time (now in yearly AND monthly)
+- Counterpart area (creditor country) <- the new addition (default or total is "World")
+
+To understand how to view a full list of dimensions (and series definitions), please read [Part 1](https://worldbank.github.io/debt-data/api-guide/ids-api-guide-python-1.html) of our IDS API guides.
+
+The following code and text will show step-by-step how to:
+
+1. Setup - getting your environment ready with the needed Python packages
+2. API Request - understanding the path and variables of the IDS API request
+3. Query data
+
+## 1. Setup
+To start, make sure you have the following packages installed on your machine. To install an R package, type install.packages("httr") with the correct package name into R. You can also visit each of the linked packages for reference.
+
+- [httr](https://cran.r-project.org/web/packages/httr/index.html): Submitting HTTP requests
+- [jsonlite](https://cran.r-project.org/web/packages/jsonlite/index.html): Parsing json response
+- [tidyverse](https://cran.r-project.org/web/packages/tidyverse/index.html):  Data work
+- [plotly](https://plot.ly/r/):  Graphing library
+
+Then, open up your preferred mode of writing R, like [R Studio](https://www.rstudio.com/). Now follow the rest of the steps below to query the World Bank Data API to find your indicator and location codes.
+
+```{r}
+library(httr)
+library(jsonlite)
+library(tidyverse)
+library(plotly)
+```
+
+## 2. API Request
+In the previous guides, we used a Python package to wrap the API and present us with data. This time, in order to better understand API requests we will take a closer look at how each variable is presented in the URL.
+
+Below is an example of the 4 dimensional API request:
+http://api.worldbank.org/v2/sources/6/country/AGO/series/DT.DOD.BLAT.CD/counterpart-area/701/time/all
+
+Let's dissect the URL to understand each component:
+
+- http://api.worldbank.org/v2: This beginning portion of the above URL is called the endpoint - the starting point of the API from where you're requesting data.
+
+To get specific data, we use a "path variable." The path is the word before the forward slash and the variable is the word after it. 
+- ***sources/6***: "sources" is the path and we select the variable "6," corresponding to the IDS database.
+
+After selecting the API source for the IDS database, we specify each of the 4 IDS dimensions:
+
+- ***country/AGO***: "country" is the debtor country and AGO (the ISO code for Angola) is our variable.
+
+- ***counterpart-area/701***: "counterpart-area" is the new dimension! This is the creditor country, showing public and publically guaranteed debt. By choosing "701" (the code for Japan) we are selecting the variable Japan as the official or bilateral lender.
+
+- ***series/DT.DOD.BLAT.CD***: "series" is the path for our indicator code. In this case, the indicator is "DT.DOD.BLAT.CD," the code for the bilateral public and publically guaranteed debt outstanding and disbursed in US dollars current (PPG, bilateral (DOD, current US$)). 
+
+- ***time/all***: the "time" path will show us the yearly data. By selecting the variable "all" we can get all years, including the NaN values.
+
+## 3. Query
+Below is a function that will take the parameters you set in the "Creditor," "Debtor," and "Series" variables to create an API request and create a neat table. 
+
+***ENTER YOUR PARAMETERS HERE:***
+```{r}
+debtorCountry <- "AGO"
+creditorCountry <- "701"
+series <- "DT.DOD.BLAT.CD"
+time <- "All"
+```
+
+***The following code will use the entered parameters above to get the selected data from the World Bank API:***
+```{r}
+# Setting up the API URL
+url <- "http://api.worldbank.org/v2/sources/6/country/"
+end <- "?format=json&per_page=500"
+path <- paste(url,debtorCountry,"/series/",series,"/counterpart-area/",creditorCountry,"/time/",time,end,sep="")
+
+# Getting the data from the API
+customRequest <- GET(url = path)
+customResponse <- content(customRequest, as = "text", encoding = "UTF-8")
+customJSON <- fromJSON(customResponse, flatten = TRUE)
+
+# Creating a funtion that will parse through the JSON response
+getData <- function(JSON) {
+  df <- data.frame(
+    year=rep(0, listLen),
+    creditorCountry=rep(0, listLen),
+    debtorCountry=rep(0, listLen),
+    series=rep(0, listLen),
+    data=rep(0, listLen)
+    )
+  
+  for(i in 1:listLen){
+    year <- JSON[["source"]][["data"]][["variable"]][[i]][[3]][[2]]
+    data <- JSON[["source"]][["data"]][["value"]][[i]]
+    df[i,] <- c(year,creditorCountry, debtorCountry, series, data)
+    df$data = as.integer(df$data)
+  }
+  return(df)
+}
+
+# get length of data response
+listLen <- length(customJSON[["source"]][["data"]][["value"]])
+
+# Plugging the data into the parsing function and printing the data (excluding NA values)
+IDSdata <- getData(customJSON)
+IDSdata <- na.omit(IDSdata)
+print(IDSdata)
+
+```
+
+Now that you have selected data, you can create a bar chart showing the increase in official bilateral PPG lending from Japan to Angola.
+```{r}
+# Making a simple bar chart
+p<-plot_ly(
+  IDSdata, x = ~year, y=~data, 
+  type = "bar")%>%
+  layout(
+    title= "Official bilateral PPG Lending from Japan to Angola (US$)"
+  )
+p
+```
+
