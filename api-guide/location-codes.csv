@@ -1,305 +1,242 @@
-locationName,locationCode
-Aruba,ABW
-Afghanistan,AFG
-Africa,AFR
-Angola,AGO
-Albania,ALB
-Andorra,AND
-Andean Region,ANR
-Arab World,ARB
-United Arab Emirates,ARE
-Argentina,ARG
-Armenia,ARM
-American Samoa,ASM
-Antigua and Barbuda,ATG
-Australia,AUS
-Austria,AUT
-Azerbaijan,AZE
-Burundi,BDI
-East Asia & Pacific (IBRD-only countries),BEA
-Europe & Central Asia (IBRD-only countries),BEC
-Belgium,BEL
-Benin,BEN
-Burkina Faso,BFA
-Bangladesh,BGD
-Bulgaria,BGR
-IBRD countries classified as high income,BHI
-Bahrain,BHR
-"Bahamas, The",BHS
-Bosnia and Herzegovina,BIH
-Latin America & the Caribbean (IBRD-only countries),BLA
-Belarus,BLR
-Belize,BLZ
-Middle East & North Africa (IBRD-only countries),BMN
-Bermuda,BMU
-Bolivia,BOL
-Brazil,BRA
-Barbados,BRB
-Brunei Darussalam,BRN
-Sub-Saharan Africa (IBRD-only countries),BSS
-Bhutan,BTN
-Botswana,BWA
-Sub-Saharan Africa (IFC classification),CAA
-Central African Republic,CAF
-Canada,CAN
-East Asia and the Pacific (IFC classification),CEA
-Central Europe and the Baltics,CEB
-Europe and Central Asia (IFC classification),CEU
-Switzerland,CHE
-Channel Islands,CHI
-Chile,CHL
-China,CHN
-Cote d'Ivoire,CIV
-Latin America and the Caribbean (IFC classification),CLA
-Middle East and North Africa (IFC classification),CME
-Cameroon,CMR
-"Congo, Dem. Rep.",COD
-"Congo, Rep.",COG
-Colombia,COL
-Comoros,COM
-Cabo Verde,CPV
-Costa Rica,CRI
-South Asia (IFC classification),CSA
-Caribbean small states,CSS
-Cuba,CUB
-Curacao,CUW
-Cayman Islands,CYM
-Cyprus,CYP
-Czech Republic,CZE
-East Asia & Pacific (IDA-eligible countries),DEA
-Europe & Central Asia (IDA-eligible countries),DEC
-Germany,DEU
-IDA countries classified as Fragile Situations,DFS
-Djibouti,DJI
-Latin America & the Caribbean (IDA-eligible countries),DLA
-Dominica,DMA
-Middle East & North Africa (IDA-eligible countries),DMN
-IDA countries not classified as Fragile Situations,DNF
-Denmark,DNK
-IDA countries in Sub-Saharan Africa not classified as fragile situations ,DNS
-Dominican Republic,DOM
-South Asia (IDA-eligible countries),DSA
-IDA countries in Sub-Saharan Africa classified as fragile situations ,DSF
-Sub-Saharan Africa (IDA-eligible countries),DSS
-"IDA total, excluding Sub-Saharan Africa",DXS
-Algeria,DZA
-East Asia & Pacific (excluding high income),EAP
-Early-demographic dividend,EAR
-East Asia & Pacific,EAS
-Europe & Central Asia (excluding high income),ECA
-Europe & Central Asia,ECS
-Ecuador,ECU
-"Egypt, Arab Rep.",EGY
-Euro area,EMU
-Eritrea,ERI
-Spain,ESP
-Estonia,EST
-Ethiopia,ETH
-European Union,EUU
-Fragile and conflict affected situations,FCS
-Finland,FIN
-Fiji,FJI
-France,FRA
-Faroe Islands,FRO
-"Micronesia, Fed. Sts.",FSM
-"IDA countries classified as fragile situations, excluding Sub-Saharan Africa",FXS
-Gabon,GAB
-United Kingdom,GBR
-Georgia,GEO
-Ghana,GHA
-Gibraltar,GIB
-Guinea,GIN
-"Gambia, The",GMB
-Guinea-Bissau,GNB
-Equatorial Guinea,GNQ
-Greece,GRC
-Grenada,GRD
-Greenland,GRL
-Guatemala,GTM
-Guam,GUM
-Guyana,GUY
-High income,HIC
-"Hong Kong SAR, China",HKG
-Honduras,HND
-Heavily indebted poor countries (HIPC),HPC
-Croatia,HRV
-Haiti,HTI
-Hungary,HUN
-"IBRD, including blend",IBB
-IBRD only,IBD
-IDA & IBRD total,IBT
-IDA total,IDA
-IDA blend,IDB
-Indonesia,IDN
-IDA only,IDX
-Isle of Man,IMN
-India,IND
-Not classified,INX
-Ireland,IRL
-"Iran, Islamic Rep.",IRN
-Iraq,IRQ
-Iceland,ISL
-Israel,ISR
-Italy,ITA
-Jamaica,JAM
-Jordan,JOR
-Japan,JPN
-Kazakhstan,KAZ
-Kenya,KEN
-Kyrgyz Republic,KGZ
-Cambodia,KHM
-Kiribati,KIR
-St. Kitts and Nevis,KNA
-"Korea, Rep.",KOR
-Kuwait,KWT
-Latin America & Caribbean (excluding high income),LAC
-Lao PDR,LAO
-Lebanon,LBN
-Liberia,LBR
-Libya,LBY
-St. Lucia,LCA
-Latin America & Caribbean ,LCN
-Latin America and the Caribbean,LCR
-Least developed countries: UN classification,LDC
-Low income,LIC
-Liechtenstein,LIE
-Sri Lanka,LKA
-Lower middle income,LMC
-Low & middle income,LMY
-Lesotho,LSO
-Late-demographic dividend,LTE
-Lithuania,LTU
-Luxembourg,LUX
-Latvia,LVA
-"Macao SAR, China",MAC
-St. Martin (French part),MAF
-Morocco,MAR
-Central America,MCA
-Monaco,MCO
-Moldova,MDA
-Middle East (developing only),MDE
-Madagascar,MDG
-Maldives,MDV
-Middle East & North Africa,MEA
-Mexico,MEX
-Marshall Islands,MHL
-Middle income,MIC
-North Macedonia,MKD
-Mali,MLI
-Malta,MLT
-Myanmar,MMR
-Middle East & North Africa (excluding high income),MNA
-Montenegro,MNE
-Mongolia,MNG
-Northern Mariana Islands,MNP
-Mozambique,MOZ
-Mauritania,MRT
-Mauritius,MUS
-Malawi,MWI
-Malaysia,MYS
-North America,NAC
-North Africa,NAF
-Namibia,NAM
-New Caledonia,NCL
-Niger,NER
-Nigeria,NGA
-Nicaragua,NIC
-Netherlands,NLD
-"Non-resource rich Sub-Saharan Africa countries, of which landlocked",NLS
-Norway,NOR
-Nepal,NPL
-Non-resource rich Sub-Saharan Africa countries,NRS
-Nauru,NRU
-"IDA countries not classified as fragile situations, excluding Sub-Saharan Africa",NXS
-New Zealand,NZL
-OECD members,OED
-Oman,OMN
-Other small states,OSS
-Pakistan,PAK
-Panama,PAN
-Peru,PER
-Philippines,PHL
-Palau,PLW
-Papua New Guinea,PNG
-Poland,POL
-Pre-demographic dividend,PRE
-Puerto Rico,PRI
-"Korea, Dem. Peopleâ€™s Rep.",PRK
-Portugal,PRT
-Paraguay,PRY
-West Bank and Gaza,PSE
-Pacific island small states,PSS
-Post-demographic dividend,PST
-French Polynesia,PYF
-Qatar,QAT
-Romania,ROU
-Resource rich Sub-Saharan Africa countries,RRS
-"Resource rich Sub-Saharan Africa countries, of which oil exporters",RSO
-Russian Federation,RUS
-Rwanda,RWA
-South Asia,SAS
-Saudi Arabia,SAU
-Southern Cone,SCE
-Sudan,SDN
-Senegal,SEN
-Singapore,SGP
-Solomon Islands,SLB
-Sierra Leone,SLE
-El Salvador,SLV
-San Marino,SMR
-Somalia,SOM
-Serbia,SRB
-Sub-Saharan Africa (excluding high income),SSA
-South Sudan,SSD
-Sub-Saharan Africa ,SSF
-Small states,SST
-Sao Tome and Principe,STP
-Suriname,SUR
-Slovak Republic,SVK
-Slovenia,SVN
-Sweden,SWE
-Eswatini,SWZ
-Sint Maarten (Dutch part),SXM
-Sub-Saharan Africa excluding South Africa,SXZ
-Seychelles,SYC
-Syrian Arab Republic,SYR
-Turks and Caicos Islands,TCA
-Chad,TCD
-East Asia & Pacific (IDA & IBRD countries),TEA
-Europe & Central Asia (IDA & IBRD countries),TEC
-Togo,TGO
-Thailand,THA
-Tajikistan,TJK
-Turkmenistan,TKM
-Latin America & the Caribbean (IDA & IBRD countries),TLA
-Timor-Leste,TLS
-Middle East & North Africa (IDA & IBRD countries),TMN
-Tonga,TON
-South Asia (IDA & IBRD),TSA
-Sub-Saharan Africa (IDA & IBRD countries),TSS
-Trinidad and Tobago,TTO
-Tunisia,TUN
-Turkey,TUR
-Tuvalu,TUV
-"Taiwan, China",TWN
-Tanzania,TZA
-Uganda,UGA
-Ukraine,UKR
-Upper middle income,UMC
-Uruguay,URY
-United States,USA
-Uzbekistan,UZB
-St. Vincent and the Grenadines,VCT
-"Venezuela, RB",VEN
-British Virgin Islands,VGB
-Virgin Islands (U.S.),VIR
-Vietnam,VNM
-Vanuatu,VUT
-World,WLD
-Samoa,WSM
-Kosovo,XKX
-Sub-Saharan Africa excluding South Africa and Nigeria,XZN
-"Yemen, Rep.",YEM
-South Africa,ZAF
-Zambia,ZMB
-Zimbabwe,ZWE
+locationName,debtorCode,creditorCode
+Afghanistan,AFG,625
+African Dev. Bank,,913
+Albania,ALB,071
+Algeria,DZA,130
+Andorra,,025
+Angola,AGO,225
+Anguilla,,376
+Antigua,,377
+Argentina,ARG,425
+Armenia,ARM,091
+Aruba,,373
+Asian Dev. Bank   ,,915
+Australia,,801
+Austria,,001
+Azerbaijan,AZE,520
+Bahamas,,328
+Bahrain,,530
+Bangladesh,BGD,666
+Barbados,,329
+Belarus,BLR,086
+Belgium,,002
+Belize,BLZ,352
+Benin,BEN,236
+Bermuda,,331
+Bhutan,BTN,630
+Bolivia,BOL,428
+Bondholders,,BND
+Bosnia and Herzegovina,BIH,
+Bosnia-Herzegovina,,064
+Botswana,BWA,227
+Brazil,BRA,431
+Brunei,,725
+Bulgaria,BGR,072
+Burkina Faso,BFA,287
+Burundi,BDI,228
+Cabo Verde,CPV,230
+Cambodia,KHM,728
+Cameroon,CMR,229
+Canada,,301
+Cayman Islands,,386
+Central African Republic,CAF,231
+Chad,TCD,232
+Chile,,434
+China,CHN,730
+Colombia,COL,437
+Comoros,COM,233
+"Congo, Dem. Rep.",COD,235
+"Congo, Rep.",COG,234
+Costa Rica,CRI,336
+"Cote D`Ivoire, Republic Of",,247
+Cote d'Ivoire,CIV,
+Croatia,,062
+Cuba,,338
+Cyprus,,030
+Czech Republic,,068
+Czechoslovakia,,073
+Denmark,,003
+Djibouti,DJI,274
+Dominica,DMA,378
+Dominican Republic,DOM,340
+East Asia & Pacific (excluding high income),EAP,
+Ecuador,ECU,440
+Egypt,,142
+"Egypt, Arab Rep.",EGY,
+El Salvador,SLV,342
+Equatorial Guinea,,245
+Eritrea,ERI,271
+Estonia,,082
+Eswatini,SWZ,280
+Ethiopia,ETH,238
+Europe & Central Asia (excluding high income),ECA,
+Fiji,FJI,832
+Finland,,018
+France,,004
+French Polynesia,,840
+Gabon,GAB,239
+"Gambia, The",GMB,240
+Georgia,GEO,095
+German Dem. Rep.,,074
+"Germany, Fed.Rep. Of",,005
+Ghana,GHA,241
+Gibraltar,,035
+Greece,,040
+Grenada,GRD,381
+Guadeloupe,,345
+Guam,,734
+Guatemala,GTM,347
+Guinea,GIN,243
+Guinea-Bissau,GNB,244
+Guyana,GUY,446
+Haiti,HTI,349
+Honduras,HND,351
+Hong Kong,,735
+Hungary,,075
+IDA only,IDX,
+Iceland,,020
+India,IND,646
+Indonesia,IDN,738
+Inter-American Dev. Bank      ,,909
+International Monetary Fund,,907
+"Iran, Islamic Rep.",IRN,
+"Iran, Islamic Republic Of",,540
+Iraq,,543
+Ireland,,021
+Israel,,546
+Italy,,006
+Jamaica,JAM,354
+Japan,,701
+Jordan,JOR,549
+Kazakhstan,KAZ,521
+Kenya,KEN,248
+Kiribati,,836
+"Korea, D.P.R. Of",,740
+"Korea, Republic Of",,742
+Kosovo,XKX,044
+Kuwait,,552
+Kyrgyz Republic,KGZ,522
+Lao PDR,LAO,
+Lao Peoples Democratic Repub.,,745
+Latin America & Caribbean (excluding high income),LAC,
+Latvia,,083
+Least developed countries: UN classification,LDC,
+Lebanon,LBN,555
+Lesotho,LSO,249
+Liberia,LBR,251
+Libya,,133
+Lithuania,,084
+Low & middle income,LMY,
+Low income,LIC,
+Lower middle income,LMC,
+Luxembourg,,022
+Macao,,748
+Madagascar,MDG,252
+Malawi,MWI,253
+Malaysia,,751
+Maldives,MDV,655
+Mali,MLI,255
+Malta,,045
+Mauritania,MRT,256
+Mauritius,,257
+Mexico,MEX,358
+Micronesia Fed Sts,,860
+Middle East & North Africa (excluding high income),MNA,
+Middle income,MIC,
+Moldova,MDA,093
+Monaco,,026
+Mongolia,MNG,753
+Montenegro,MNE,065
+Morocco,MAR,136
+Mozambique,MOZ,259
+Multiple Lenders,,994
+Myanmar,MMR,635
+Namibia,,275
+Nepal,NPL,660
+Neth. Antilles,,361
+Netherlands,,007
+New Caledonia (Fr.),,850
+New Zealand,,820
+Nicaragua,NIC,364
+Niger,NER,260
+Nigeria,NGA,261
+North Macedonia,MKD,066
+Norway,,008
+Oman,,558
+Other Bilateral,,OBL
+Other Multilaterals,,OTM
+Other Multiple Lenders,,FCW
+Pacific Is. (Us),,858
+Pakistan,PAK,665
+Panama,,366
+Papua New Guinea,PNG,862
+Paraguay,PRY,451
+Peru,PER,454
+Philippines,PHL,755
+Poland,,076
+Portugal,,009
+Puerto Rico,,368
+Qatar,,561
+Reunion,,264
+Romania,,077
+Russian Federation,RUS,087
+Rwanda,RWA,266
+Samoa,WSM,880
+Sao Tome & Principe,,268
+Sao Tome and Principe,STP,
+Saudi Arabia,,566
+Senegal,SEN,269
+Serbia,SRB,060
+Seychelles,,270
+Sierra Leone,SLE,272
+Singapore,,761
+Slovak Republic,,069
+Slovenia,,061
+Solomon Islands,SLB,866
+Somalia,SOM,273
+South Africa,ZAF,216
+South Asia,SAS,
+Spain,,050
+Sri Lanka,LKA,640
+St. Kitts And Nevis,,382
+St. Lucia,LCA,383
+St. Vincent & The Grenadines,,384
+St. Vincent and the Grenadines,VCT,
+Sub-Saharan Africa (excluding high income),SSA,
+Sudan,SDN,278
+Surinam,,457
+Sweden,,010
+Switzerland,,011
+Syrian Arab Republic,SYR,573
+Tajikistan,TJK,524
+Tanzania,TZA,282
+Thailand,THA,764
+Timor-Leste,TLS,765
+Togo,TGO,283
+Tonga,TON,870
+Trinidad & Tobago,,375
+Tunisia,TUN,139
+Turkey,TUR,055
+Turkmenistan,TKM,525
+USSR,,078
+Uganda,UGA,285
+Ukraine,UKR,085
+United Arab Emirates,,576
+United Kingdom,,012
+United States,,302
+Upper middle income,UMC,
+Uruguay,,460
+Uzbekistan,UZB,523
+Vanuatu,VUT,854
+"Venezuela, RB",VEN,
+"Venezuela, Republic Bolivarian",,463
+Vietnam,VNM,769
+Virgin Is.(US),,379
+World,,WLD
+World Bank-IBRD                         ,,901
+World Bank-IDA                         ,,905
+"Yemen, Rep.",YEM,
+"Yemen, Republic Of",,580
+Yugoslavia,,063
+Zambia,ZMB,288
+Zimbabwe,ZWE,265
