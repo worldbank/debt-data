@@ -105,7 +105,7 @@ By using the API queries above, we were able sort through the World Bank Data AP
 
 ## 3. Location API Queries*
 
-*The 11/19/20 update to this guide added how to also get the full list of creditor locations
+*The 11/16/20 update to this guide added how to also get the full list of creditor locations
 
 Now that we have the indicator code, we need to select debtor and creditor locations. To select a location by country, region, or income level category you will need to know its 3 letter code. This section will show you how to use similar API queries to pull the location names and codes.
 
