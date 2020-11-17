@@ -10,4 +10,9 @@ Every year, the World Bank releases the [International Debt Statistics (IDS)](ht
 ## Contents
 ### 1. [api-guide: Accessing International Debt Statistics through World Bank API](https://worldbank.github.io/debt-data/api-guide/)
 
-To encourage the exploration and analysis of the World Bank's International Debt Statistics data, these step-by-step guides will explain how to use the World Bank Data API to access debt data and then do some exploratory analysis. This will be a two part series. The first guide will show how to query the API for your indicator and location of choice. The second guide will show how to call that information and create a basic chart. The guides are available in Python and R.
+To encourage the exploration and analysis of the World Bank's IDS data, these step-by-step guides will explain how to use the World Bank Data API to access debt data and then do some exploratory analysis. This will be a two part series. The first guide will show how to query the API for your indicator and location of choice. The second guide will show how to call that information and create a basic chart. The guides are available in Python and R.
+
+### 2. [creditor-composition: Exploring Debt Data by Creditor Composition](https://worldbank.github.io/debt-data/creditor-composition/)
+
+IDS 2021 added an additional dimension to the data – the creditor country. To help you start exploring this data, we put together another step-by-step guide in both Python and R. In the previous guides, we used packages to wrap the API and present us with data. This time, in order to better understand API requests we will take a closer look at how each variable is presented in the URL.
+
