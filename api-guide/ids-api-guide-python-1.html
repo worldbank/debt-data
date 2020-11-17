@@ -13124,7 +13124,8 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Date: 10/2/2019 <br>
-<a href="https://datacatalog.worldbank.org/dataset/international-debt-statistics">Data source</a><br>
+Updated: 11/16/20</p>
+<p><a href="https://datacatalog.worldbank.org/dataset/international-debt-statistics">Data source</a><br>
 <a href="https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information">Developer Information</a><br>
 <a href="https://github.com/worldbank/debt-data/tree/master/api-guide">GitHub</a></p>
 
@@ -13139,7 +13140,7 @@ div#notebook {
 <ol>
 <li>Setup up your environment with the needed Python packages</li>
 <li>Create Indicator API Queries</li>
-<li>Create Location API Queries</li>
+<li>Create Location API Queries (for both debtor and creditor locations)</li>
 </ol>
 
 </div>
@@ -13152,6 +13153,7 @@ div#notebook {
 <ul>
 <li><a href="https://realpython.com/python-requests/">requests</a>: Making HTTP requests in Python</li>
 <li><a href="https://docs.python.org/3/library/json.html">json</a>: Interpreting json</li>
+<li><a href="https://pandas.pydata.org/">pandas</a>: Data analysis</li>
 </ul>
 <p>Then, open up your preferred mode of writing Python. This could be in a <a href="https://jupyter.org/">Jupyter Notebook</a> using <a href="https://blog.jupyter.org/jupyterlab-is-ready-for-users-5a6f039b8906">Jupyter Lab</a>, using a code editor (like Atom or Visual Studio) + command line, or just from the command line. Then import the required packages:</p>
 
@@ -13166,6 +13168,7 @@ div#notebook {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Import packages</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 </pre></div>
 
     </div>
@@ -13243,7 +13246,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>From the above result, you can see that "International Debt Statistics" is has a source ID of 6. We will add that source ID to the end of our API queries.</p>
+<p>From the above result, you can see that "International Debt Statistics" has a source ID of 6. We will add that source ID to the end of our API queries.</p>
 
 </div>
 </div>
@@ -13399,9 +13402,9 @@ The indicator and code we want is "DT.DOD.DLXF.CD External debt stocks, long-ter
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="3.-Location-API-Queries">3. Location API Queries<a class="anchor-link" href="#3.-Location-API-Queries">&#182;</a></h2><p>Now that we have the indicator code, we need to select a location. To select a location by country, region, or income level category you will need to know its 2 or 3 letter code. This section will show you how to use similar API queries to pull the location names and codes.</p>
+<h2 id="3.-Location-API-Queries*">3. Location API Queries*<a class="anchor-link" href="#3.-Location-API-Queries*">&#182;</a></h2><h6 id="*The-11/19/20-update-to-this-guide-added-how-to-also-get-the-full-list-of-creditor-locations">*The 11/19/20 update to this guide added how to also get the full list of creditor locations<a class="anchor-link" href="#*The-11/19/20-update-to-this-guide-added-how-to-also-get-the-full-list-of-creditor-locations">&#182;</a></h6><p>Now that we have the indicator code, we need to select debtor and creditor locations. To select a location by country, region, or income level category you will need to know its 3 letter code. This section will show you how to use similar API queries to pull the location names and codes.</p>
 <p>For more information on location API queries visit the <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/898590-country-api-queries">Data Help Desk</a>.</p>
-<p>When pulling the list of locations, I will set the per_page result to 300.</p>
+<p>When pulling the list of debtor locations, I will set the per_page result to 300.</p>
 
 </div>
 </div>
@@ -13412,17 +13415,54 @@ The indicator and code we want is "DT.DOD.DLXF.CD External debt stocks, long-ter
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Requesting the locations</span>
-<span class="n">locations</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/country?format=json&amp;source=6&amp;per_page=300&quot;</span><span class="p">)</span>
-<span class="n">locationsJSON</span> <span class="o">=</span> <span class="n">locations</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-<span class="c1">#print(locationsJSON) # if you want to view ALL of the indicators as is, remove the &quot;#&quot; at the beginning of the print command</span>
+<span class="n">dlocations</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/sources/6/country?per_page=300&amp;format=JSON&quot;</span><span class="p">)</span>
+<span class="n">dlocationsJSON</span> <span class="o">=</span> <span class="n">dlocations</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
 <span class="c1"># Parse through the response to see the location IDs and names</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">locationsJSON</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-    <span class="n">locationCodes</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
-    <span class="c1">#print(locationCodes) # to view the location ids and names, remove the &quot;#&quot; at the beginning of the print command</span>
+<span class="n">dlocations</span> <span class="o">=</span> <span class="n">dlocationsJSON</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;concept&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;variable&quot;</span><span class="p">]</span>
+<span class="n">listLen</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dlocations</span><span class="p">))</span>
+
+<span class="c1"># Create dataframe with location values</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">])</span>     
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">listLen</span><span class="p">):</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">dlocations</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">dlocations</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="n">code</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="n">name</span><span class="p">},</span> <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">dlocationsList</span> <span class="o">=</span> <span class="n">df</span>
+
+<span class="c1"># See first few items in the dataframe</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dlocationsList</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>    id         value
+0  AFG   Afghanistan
+1  AGO        Angola
+2  ALB       Albania
+3  ARG     Argentina
+4  ARM       Armenia
+5  AZE    Azerbaijan
+6  BDI       Burundi
+7  BEN         Benin
+8  BFA  Burkina Faso
+9  BGD    Bangladesh
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -13430,8 +13470,74 @@ The indicator and code we want is "DT.DOD.DLXF.CD External debt stocks, long-ter
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>From this list of locations, we can now pick one or more locations and the corresponding location code. Such as ARG - Argentina or EAP - East Asia &amp; Pacific. The results from this query are also saved as <a href="https://github.com/worldbank/debt-data/blob/master/api-guide/location-codes.csv">location-codes csv</a>*</p>
-<h6 id="*The-location-codes-csv-was-created-using-the-API-query:-http://api.worldbank.org/v2/sources/2/country/data">*The location-codes csv was created using the API query: <a href="http://api.worldbank.org/v2/sources/2/country/data">http://api.worldbank.org/v2/sources/2/country/data</a><a class="anchor-link" href="#*The-location-codes-csv-was-created-using-the-API-query:-http://api.worldbank.org/v2/sources/2/country/data">&#182;</a></h6>
+<p>IDS 2021 added a 4th dimension to the data - creditor country. You can read more about that on the <a href="https://blogs.worldbank.org/opendata/exploring-debt-data-creditor-composition">World Bank Data Blog</a>. To get the full list of the creditor codes and names, you use a query like the one above, but in the get request you replace "country" with "counterpart-area."</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Requesting the locations</span>
+<span class="n">clocations</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://api.worldbank.org/v2/sources/6/counterpart-area?per_page=300&amp;format=JSON&quot;</span><span class="p">)</span>
+<span class="n">clocationsJSON</span> <span class="o">=</span> <span class="n">clocations</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+<span class="c1"># Parse through the response to see the location IDs and names</span>
+<span class="n">clocations</span> <span class="o">=</span> <span class="n">clocationsJSON</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;concept&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;variable&quot;</span><span class="p">]</span>
+<span class="n">listLen</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">clocations</span><span class="p">))</span>
+
+<span class="c1"># Create dataframe with location values</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">])</span>     
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">listLen</span><span class="p">):</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">clocations</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">clocations</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="n">code</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="n">name</span><span class="p">},</span> <span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">clocationsList</span> <span class="o">=</span> <span class="n">df</span>
+
+<span class="c1"># See first few items in the dataframe</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clocationsList</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>    id                 value
+0  001               Austria
+1  002               Belgium
+2  003               Denmark
+3  004                France
+4  005  Germany, Fed.Rep. Of
+5  006                 Italy
+6  007           Netherlands
+7  008                Norway
+8  009              Portugal
+9  010                Sweden
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The results from these two queries are also saved as <a href="https://github.com/worldbank/debt-data/blob/master/api-guide/location-codes.csv">location-codes csv</a>*.</p>
+<h6 id="**The-location-codes-csv-was-created-using-the-API-queries:-http://api.worldbank.org/v2/sources/6/country?per_page=500&amp;format=JSON-&amp;-http://api.worldbank.org/v2/sources/6/counterpart-area?per_page=500&amp;format=JSON">**The location-codes csv was created using the API queries: <a href="http://api.worldbank.org/v2/sources/6/country?per_page=500&amp;format=JSON">http://api.worldbank.org/v2/sources/6/country?per_page=500&amp;format=JSON</a> &amp; <a href="http://api.worldbank.org/v2/sources/6/counterpart-area?per_page=500&amp;format=JSON">http://api.worldbank.org/v2/sources/6/counterpart-area?per_page=500&amp;format=JSON</a><a class="anchor-link" href="#**The-location-codes-csv-was-created-using-the-API-queries:-http://api.worldbank.org/v2/sources/6/country?per_page=500&amp;format=JSON-&amp;-http://api.worldbank.org/v2/sources/6/counterpart-area?per_page=500&amp;format=JSON">&#182;</a></h6>
 </div>
 </div>
 </div>

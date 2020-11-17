@@ -197,12 +197,13 @@ $(document).ready(function () {
 <h2>Part 1 - Query the API: indicators and locations</h2>
 <div id="r" class="section level3">
 <h3><em>R</em></h3>
-<p>Date: 10/2/2019 <br> <a href="https://datacatalog.worldbank.org/dataset/international-debt-statistics">Data source</a><br> <a href="https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information">Developer Information</a><br> <a href="https://github.com/worldbank/debt-data/tree/master/api-guide">GitHub</a></p>
+<p>Date: 10/2/2019 <br> Updated: 11/16/2020</p>
+<p><a href="https://datacatalog.worldbank.org/dataset/international-debt-statistics">Data source</a><br> <a href="https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information">Developer Information</a><br> <a href="https://github.com/worldbank/debt-data/tree/master/api-guide">GitHub</a></p>
 <p>This is first part of a two-part series on accessing the International Debt Statistics (IDS) database through the World Bank Data API. In this part, we will query the World Bank Data API to retrieve indicator names and location codes. <br><br> The following code in this guide will show step-by-step how to:</p>
 <ol style="list-style-type: decimal">
 <li>Setup up your environment with the needed R packages</li>
 <li>Create Indicator API Queries</li>
-<li>Create Location API Queries</li>
+<li>Create Location API Queries (for both debtor and creditor locations)</li>
 </ol>
 </div>
 </div>
@@ -230,7 +231,7 @@ library(tidyverse)</code></pre>
 <p>To find the indicator code, we will first need to specify the API source. The World Bank Data API has numerous sources, including one specific to International Debt Statistics.</p>
 <p>The following GET request will get us every source from the World Bank Data API. However, the request is returned in a json format that is difficult to read as is, so we will include some code to parse through it. Then we can see each source name and ID available in the World Bank Data API to find IDS.</p>
 <pre class="r"><code># Get all the source names from the World Bank API
-sourceRequest &lt;- GET(url = &quot;http://api.worldbank.org/v2/sources?format=json&quot;)
+sourceRequest &lt;- GET(url = &quot;http://api.worldbank.org/v2/sources?per_page=100&amp;format=json&quot;)
 sourceResponse &lt;- content(sourceRequest, as = &quot;text&quot;, encoding = &quot;UTF-8&quot;)
 
 # Parse the JSON content and convert it to a data frame.
@@ -239,59 +240,20 @@ sourceJSON &lt;- fromJSON(sourceResponse, flatten = TRUE) %&gt;%
 
 # Print the data frame and review the source names and ids
 cols &lt;- c(&quot;id&quot;,&quot;name&quot;)
-sourceJSON[,cols]</code></pre>
-<pre><code>##    id                                                                 name
-## 1   1                                                       Doing Business
-## 2   5                                    Subnational Malnutrition Database
-## 3   6                                        International Debt Statistics
-## 4  11                                        Africa Development Indicators
-## 5  12                                                 Education Statistics
-## 6  13                                                   Enterprise Surveys
-## 7  14                                                    Gender Statistics
-## 8  15                                              Global Economic Monitor
-## 9  16                           Health Nutrition and Population Statistics
-## 10 18                                       IDA Results Measurement System
-## 11 19                                         Millennium Development Goals
-## 12 20                                         Quarterly Public Sector Debt
-## 13 22                              Quarterly External Debt Statistics SDDS
-## 14 23                              Quarterly External Debt Statistics GDDS
-## 15 24                                                   Poverty and Equity
-## 16 25                                                                 Jobs
-## 17 27                                            Global Economic Prospects
-## 18 28                                           Global Financial Inclusion
-## 19 29  The Atlas of Social Protection: Indicators of Resilience and Equity
-## 20 30        Exporter Dynamics Database â Indicators at Country-Year Level
-## 21 31                          Country Policy and Institutional Assessment
-## 22 32                                         Global Financial Development
-## 23 33                                   G20 Financial Inclusion Indicators
-## 24 34                                     Global Partnership for Education
-## 25 35                                           Sustainable Energy for All
-## 26 36                                      Statistical Capacity Indicators
-## 27 37                                                       LAC Equity Lab
-## 28 38                                                  Subnational Poverty
-## 29 39        Health Nutrition and Population Statistics by Wealth Quintile
-## 30 40                                 Population estimates and projections
-## 31 41                 Country Partnership Strategy for India (FY2013 - 17)
-## 32 44                       Readiness for Investment in Sustainable Energy
-## 33 45                  Indonesia Database for Policy and Economic Research
-## 34 46                                       Sustainable Development Goals 
-## 35 54                                              Joint External Debt Hub
-## 36 60                                                     Economic Fitness
-## 37 61                                              PPPs Regulatory Quality
-## 38 62                          International Comparison Program (ICP) 2011
-## 39 63                                                  Human Capital Index
-## 40 65                    Health Equity and Financial Protection Indicators
-## 41 66                                          Logistics Performance Index
-## 42 67                                                            PEFA 2011
-## 43 68                                                            PEFA 2016
-## 44 69            Global Financial Inclusion and Consumer Protection Survey
-## 45 70                                                   Economic Fitness 2
-## 46 71                          International Comparison Program (ICP) 2005
-## 47 72                                                            PEFA_Test
-## 48 73 Global Financial Inclusion and Consumer Protection Survey (Internal)
-## 49 74                                       Macro Poverty Outlook External
-## 50 75                        Environment, Social and Governance (ESG) Data</code></pre>
-<p>From the above result, you can see that “International Debt Statistics” is has a source ID of 6. We will add that source ID to the end of our API queries.</p>
+#sourceJSON[,cols] # to view all sources, remove the # at the beginning of the line
+sourceJSON[1:10,cols]</code></pre>
+<pre><code>##    id                              name
+## 1   1                    Doing Business
+## 2   2      World Development Indicators
+## 3   3   Worldwide Governance Indicators
+## 4   5 Subnational Malnutrition Database
+## 5   6     International Debt Statistics
+## 6  11     Africa Development Indicators
+## 7  12              Education Statistics
+## 8  13                Enterprise Surveys
+## 9  14                 Gender Statistics
+## 10 15           Global Economic Monitor</code></pre>
+<p>From the above result, you can see that “International Debt Statistics” has a source ID of 6. We will add that source ID to the end of our API queries.</p>
 </div>
 <div id="getting-the-indicator-code" class="section level4">
 <h4>Getting the Indicator code</h4>
@@ -313,7 +275,6 @@ cols &lt;- c(&quot;id&quot;,&quot;name&quot;)
 <pre class="r"><code># use the indicator code to define the &quot;indicator&quot; variable
 indicator &lt;- &quot;DT.DOD.DLXF.CD&quot;
 
-
 # use the above indicator code to find associate &quot;sourceNote&quot; or definition
 definition &lt;- which(indicatorsJSON$id == indicator)
 print(indicatorsJSON$sourceNote[definition])</code></pre>
@@ -322,53 +283,92 @@ print(indicatorsJSON$sourceNote[definition])</code></pre>
 </div>
 </div>
 <div id="location-api-queries" class="section level2">
-<h2>3. Location API Queries</h2>
-<p>Now that we have the indicator code, we need to select a location. To select a location by country, region, or income level category you will need to know its 2 or 3 letter code. This section will show you how to use similar API queries to pull the location names and codes.</p>
+<h2>3. Location API Queries*</h2>
+<p>*The 11/19/20 update to this guide added how to also get the full list of creditor locations</p>
+<p>Now that we have the indicator code, we need to select debtor and creditor locations. To select a location by country, region, or income level category you will need to know its 3 letter code. This section will show you how to use similar API queries to pull the location names and codes.</p>
 <p>For more information on location API queries visit the <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/898590-country-api-queries">Data Help Desk</a>.</p>
-<p>When pulling the list of locations, I will set the per_page result to 300.</p>
+<p>When pulling the list of debtor locations, I will set the per_page result to 300.</p>
 <pre class="r"><code># Make request to World Bank API
-locationRequest &lt;- GET(url = &quot;http://api.worldbank.org/v2/country?per_page=300&amp;format=json&amp;source=6&quot;)
-locationResponse &lt;- content(locationRequest, as = &quot;text&quot;, encoding = &quot;UTF-8&quot;)
+dlocationRequest &lt;- GET(url = &quot;http://api.worldbank.org/v2/sources/6/country?per_page=300&amp;format=JSON&quot;)
+dlocationResponse &lt;- content(dlocationRequest, as = &quot;text&quot;, encoding = &quot;UTF-8&quot;)
 
-# Parse the JSON content and convert it to a data frame.
-locationsJSON &lt;- fromJSON(locationResponse, flatten = TRUE) %&gt;%
-  data.frame()
+# Parse the JSON content
+dlocationsJSON &lt;- fromJSON(dlocationResponse, flatten = TRUE)
 
 # Create a dataframe with the location codes and names
-cols &lt;- c(&quot;id&quot;,&quot;name&quot;)
-locationList &lt;- locationsJSON[,cols]
+dlocationList &lt;- dlocationsJSON[[&quot;source&quot;]][[&quot;concept&quot;]][[1]][[&quot;variable&quot;]]%&gt;%
+  data.frame()
 
-# locationList[,cols] # To see all of the locations and location codes remove the &quot;#&quot; at the beginning of this line
 #We can view the first 25 entries below
-locationList[1:25,]</code></pre>
-<pre><code>##     id                                        name
-## 1  ABW                                       Aruba
-## 2  AFG                                 Afghanistan
-## 3  AFR                                      Africa
-## 4  AGO                                      Angola
-## 5  ALB                                     Albania
-## 6  AND                                     Andorra
-## 7  ANR                               Andean Region
-## 8  ARB                                  Arab World
-## 9  ARE                        United Arab Emirates
-## 10 ARG                                   Argentina
-## 11 ARM                                     Armenia
-## 12 ASM                              American Samoa
-## 13 ATG                         Antigua and Barbuda
-## 14 AUS                                   Australia
-## 15 AUT                                     Austria
-## 16 AZE                                  Azerbaijan
-## 17 BDI                                     Burundi
-## 18 BEA   East Asia &amp; Pacific (IBRD-only countries)
-## 19 BEC Europe &amp; Central Asia (IBRD-only countries)
-## 20 BEL                                     Belgium
-## 21 BEN                                       Benin
-## 22 BFA                                Burkina Faso
-## 23 BGD                                  Bangladesh
-## 24 BGR                                    Bulgaria
-## 25 BHI    IBRD countries classified as high income</code></pre>
-<p>From this list of locations, we can now pick one or more locations and the corresponding location code. Such as ARG - Argentina or EAP - East Asia &amp; Pacific. The results from this query are also saved as <a href="https://github.com/worldbank/debt-data/blob/master/api-guide/location-codes.csv">location-codes csv</a>*.</p>
-<p>*The location-codes csv was created using the API query: <a href="http://api.worldbank.org/v2/sources/2/country/data" class="uri">http://api.worldbank.org/v2/sources/2/country/data</a></p>
+dlocationList[1:25,]</code></pre>
+<pre><code>##     id                    value
+## 1  AFG              Afghanistan
+## 2  AGO                   Angola
+## 3  ALB                  Albania
+## 4  ARG                Argentina
+## 5  ARM                  Armenia
+## 6  AZE               Azerbaijan
+## 7  BDI                  Burundi
+## 8  BEN                    Benin
+## 9  BFA             Burkina Faso
+## 10 BGD               Bangladesh
+## 11 BGR                 Bulgaria
+## 12 BIH   Bosnia and Herzegovina
+## 13 BLR                  Belarus
+## 14 BLZ                   Belize
+## 15 BOL                  Bolivia
+## 16 BRA                   Brazil
+## 17 BTN                   Bhutan
+## 18 BWA                 Botswana
+## 19 CAF Central African Republic
+## 20 CHN                    China
+## 21 CIV            Cote d'Ivoire
+## 22 CMR                 Cameroon
+## 23 COD         Congo, Dem. Rep.
+## 24 COG              Congo, Rep.
+## 25 COL                 Colombia</code></pre>
+<p>IDS 2021 added a 4th dimension to the data - creditor country. You can read more about that on the <a href="https://blogs.worldbank.org/opendata/exploring-debt-data-creditor-composition">World Bank Data Blog</a>. To get the full list of the creditor codes and names, you use a query like as the one above, but in the get request you replace “country” with “counterpart-area.”</p>
+<pre class="r"><code># Make request to World Bank API
+clocationRequest &lt;- GET(url = &quot;http://api.worldbank.org/v2/sources/6/counterpart-area?per_page=300&amp;format=JSON&quot;)
+clocationResponse &lt;- content(clocationRequest, as = &quot;text&quot;, encoding = &quot;UTF-8&quot;)
+
+# Parse the JSON content and convert it to a data frame.
+clocationsJSON &lt;- fromJSON(clocationResponse, flatten = TRUE)
+
+# Create a dataframe with the location codes and names
+clocationList &lt;- clocationsJSON[[&quot;source&quot;]][[&quot;concept&quot;]][[1]][[&quot;variable&quot;]]%&gt;%
+  data.frame()
+
+#We can view the first 25 entries below
+clocationList[1:25,]</code></pre>
+<pre><code>##     id                value
+## 1  001              Austria
+## 2  002              Belgium
+## 3  003              Denmark
+## 4  004               France
+## 5  005 Germany, Fed.Rep. Of
+## 6  006                Italy
+## 7  007          Netherlands
+## 8  008               Norway
+## 9  009             Portugal
+## 10 010               Sweden
+## 11 011          Switzerland
+## 12 012       United Kingdom
+## 13 018              Finland
+## 14 020              Iceland
+## 15 021              Ireland
+## 16 022           Luxembourg
+## 17 025              Andorra
+## 18 026               Monaco
+## 19 030               Cyprus
+## 20 035            Gibraltar
+## 21 040               Greece
+## 22 044               Kosovo
+## 23 045                Malta
+## 24 050                Spain
+## 25 055               Turkey</code></pre>
+<p>The results from these two queries are also saved as <a href="https://github.com/worldbank/debt-data/blob/master/api-guide/location-codes.csv">location-codes csv</a>*.</p>
+<p>*The location-codes csv was created using the API queries: <a href="http://api.worldbank.org/v2/sources/6/country?per_page=500&amp;format=JSON" class="uri">http://api.worldbank.org/v2/sources/6/country?per_page=500&amp;format=JSON</a> &amp; <a href="http://api.worldbank.org/v2/sources/6/counterpart-area?per_page=500&amp;format=JSON" class="uri">http://api.worldbank.org/v2/sources/6/counterpart-area?per_page=500&amp;format=JSON</a></p>
 </div>
 
 

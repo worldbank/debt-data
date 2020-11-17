@@ -9,6 +9,8 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 ## Part 1 - Query the API: indicators and locations
 ### *R*
 Date: 10/2/2019 <br>
+Updated: 11/16/2020
+
 [Data source](https://datacatalog.worldbank.org/dataset/international-debt-statistics)<br>
 [Developer Information](https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information)<br>
 [GitHub](https://github.com/worldbank/debt-data/tree/master/api-guide)
@@ -18,7 +20,7 @@ The following code in this guide will show step-by-step how to:
 
 1. Setup up your environment with the needed R packages
 2. Create Indicator API Queries
-3. Create Location API Queries
+3. Create Location API Queries (for both debtor and creditor locations)
 
 ## 1. Setup
 To start, make sure you have the following packages installed on your machine. To install an R package, type install.packages("wbstats") with the correct package name into R. You can also visit each of the linked packages for reference.
@@ -51,7 +53,7 @@ The following GET request will get us every source from the World Bank Data API.
 
 ```{r}
 # Get all the source names from the World Bank API
-sourceRequest <- GET(url = "http://api.worldbank.org/v2/sources?format=json")
+sourceRequest <- GET(url = "http://api.worldbank.org/v2/sources?per_page=100&format=json")
 sourceResponse <- content(sourceRequest, as = "text", encoding = "UTF-8")
 
 # Parse the JSON content and convert it to a data frame.
@@ -60,7 +62,8 @@ sourceJSON <- fromJSON(sourceResponse, flatten = TRUE) %>%
 
 # Print the data frame and review the source names and ids
 cols <- c("id","name")
-sourceJSON[,cols]
+#sourceJSON[,cols] # to view all sources, remove the # at the beginning of the line
+sourceJSON[1:10,cols]
 ```
 From the above result, you can see that "International Debt Statistics" has a source ID of 6. We will add that source ID to the end of our API queries.
 
@@ -92,7 +95,6 @@ The indicator and code we want is "DT.DOD.DLXF.CD External debt stocks, long-ter
 # use the indicator code to define the "indicator" variable
 indicator <- "DT.DOD.DLXF.CD"
 
-
 # use the above indicator code to find associate "sourceNote" or definition
 definition <- which(indicatorsJSON$id == indicator)
 print(indicatorsJSON$sourceNote[definition])
@@ -101,33 +103,51 @@ print(indicatorsJSON$sourceNote[definition])
 
 By using the API queries above, we were able sort through the World Bank Data API sources to find IDS, find "External Debt," explore the corresponding indicators, and then select one indicator of interest and find its ID and definition.
 
-## 3. Location API Queries
+## 3. Location API Queries*
 
-Now that we have the indicator code, we need to select a location. To select a location by country, region, or income level category you will need to know its 2 or 3 letter code. This section will show you how to use similar API queries to pull the location names and codes.
+*The 11/19/20 update to this guide added how to also get the full list of creditor locations
+
+Now that we have the indicator code, we need to select debtor and creditor locations. To select a location by country, region, or income level category you will need to know its 3 letter code. This section will show you how to use similar API queries to pull the location names and codes.
 
 For more information on location API queries visit the [Data Help Desk](https://datahelpdesk.worldbank.org/knowledgebase/articles/898590-country-api-queries).
 
-When pulling the list of locations, I will set the per_page result to 300.
+When pulling the list of debtor locations, I will set the per_page result to 300.
 
 ```{r}
 # Make request to World Bank API
-locationRequest <- GET(url = "http://api.worldbank.org/v2/country?per_page=300&format=json&source=6")
-locationResponse <- content(locationRequest, as = "text", encoding = "UTF-8")
+dlocationRequest <- GET(url = "http://api.worldbank.org/v2/sources/6/country?per_page=300&format=JSON")
+dlocationResponse <- content(dlocationRequest, as = "text", encoding = "UTF-8")
 
-# Parse the JSON content and convert it to a data frame.
-locationsJSON <- fromJSON(locationResponse, flatten = TRUE) %>%
-  data.frame()
+# Parse the JSON content
+dlocationsJSON <- fromJSON(dlocationResponse, flatten = TRUE)
 
 # Create a dataframe with the location codes and names
-cols <- c("id","name")
-locationList <- locationsJSON[,cols]
+dlocationList <- dlocationsJSON[["source"]][["concept"]][[1]][["variable"]]%>%
+  data.frame()
 
-# locationList[,cols] # To see all of the locations and location codes remove the "#" at the beginning of this line
 #We can view the first 25 entries below
-locationList[1:25,]
+dlocationList[1:25,]
 ```
 
-From this list of locations, we can now pick one or more locations and the corresponding location code. Such as ARG - Argentina or EAP - East Asia & Pacific. The results from this query are also saved as [location-codes csv](https://github.com/worldbank/debt-data/blob/master/api-guide/location-codes.csv)*.
+IDS 2021 added a 4th dimension to the data - creditor country. You can read more about that on the [World Bank Data Blog](https://blogs.worldbank.org/opendata/exploring-debt-data-creditor-composition). To get the full list of the creditor codes and names, you use a query like as the one above, but in the get request you replace "country" with "counterpart-area."
 
-*The location-codes csv was created using the API query: http://api.worldbank.org/v2/sources/2/country/data
+```{r}
+# Make request to World Bank API
+clocationRequest <- GET(url = "http://api.worldbank.org/v2/sources/6/counterpart-area?per_page=300&format=JSON")
+clocationResponse <- content(clocationRequest, as = "text", encoding = "UTF-8")
+
+# Parse the JSON content and convert it to a data frame.
+clocationsJSON <- fromJSON(clocationResponse, flatten = TRUE)
+
+# Create a dataframe with the location codes and names
+clocationList <- clocationsJSON[["source"]][["concept"]][[1]][["variable"]]%>%
+  data.frame()
+
+#We can view the first 25 entries below
+clocationList[1:25,]
+```
+
+The results from these two queries are also saved as [location-codes csv](https://github.com/worldbank/debt-data/blob/master/api-guide/location-codes.csv)*.
+
+*The location-codes csv was created using the API queries: http://api.worldbank.org/v2/sources/6/country?per_page=500&format=JSON & http://api.worldbank.org/v2/sources/6/counterpart-area?per_page=500&format=JSON 
 
