@@ -1,22 +1,33 @@
 locationName,debtorCode,creditorCode
 Afghanistan,AFG,625
 African Dev. Bank,,913
+African Export-Import Bank,,815
 Albania,ALB,071
 Algeria,DZA,130
 Andorra,,025
 Angola,AGO,225
 Anguilla,,376
 Antigua,,377
+Arab African International Bank,,922
+Arab Bank for Economic Dev. in Africa (BADEA),,953
+Arab Fund for Economic & Social Development,,921
+Arab Fund for Tech. Assist. to African Countries,,980
+Arab International Bank,,897
+Arab League,,947
+Arab Monetary Fund,,973
+Arab Towns Organization (ATO),,983
 Argentina,ARG,425
 Armenia,ARM,091
 Aruba,,373
-Asian Dev. Bank   ,,915
+Asian Dev. Bank,,915
+Asian Infrastructure Investment Bank,,899
 Australia,,801
 Austria,,001
 Azerbaijan,AZE,520
 Bahamas,,328
 Bahrain,,530
 Bangladesh,BGD,666
+Bank for International Settlements (BIS),,911
 Barbados,,329
 Belarus,BLR,086
 Belgium,,002
@@ -24,6 +35,7 @@ Belize,BLZ,352
 Benin,BEN,236
 Bermuda,,331
 Bhutan,BTN,630
+Bolivarian Alliance for the Americas (ALBA),,890
 Bolivia,BOL,428
 Bondholders,,BND
 Bosnia and Herzegovina,BIH,
@@ -38,40 +50,70 @@ Cabo Verde,CPV,230
 Cambodia,KHM,728
 Cameroon,CMR,229
 Canada,,301
+Caribbean Community (CARICOM),,816
+Caribbean Dev. Bank,,906
 Cayman Islands,,386
+Center for Latin American Monetary Studies (CEMLA),,992
 Central African Republic,CAF,231
+Central American Bank for Econ. Integ. (CABEI),,894
+Central American Bank for Econ. Integration (BCIE),,910
+Central Bank of West African States (BCEAO),,971
 Chad,TCD,232
 Chile,,434
 China,CHN,730
 Colombia,COL,437
+Colombo Plan,,810
 Comoros,COM,233
 "Congo, Dem. Rep.",COD,235
 "Congo, Rep.",COG,234
+Corporacion Andina de Fomento,,920
 Costa Rica,CRI,336
 "Cote D`Ivoire, Republic Of",,247
 Cote d'Ivoire,CIV,
+Council of Europe,,926
 Croatia,,062
 Cuba,,338
 Cyprus,,030
-Czech Republic,,068
+Czechia,,068
 Czechoslovakia,,073
 Denmark,,003
+Dev. Bank of the Central African States (BDEAC),,993
 Djibouti,DJI,274
 Dominica,DMA,378
 Dominican Republic,DOM,340
+East African Community,,237
 East Asia & Pacific (excluding high income),EAP,
+Eastern & Southern African Trade & Dev. Bank (TDB),,817
+ECO Trade and Dev. Bank,,893
+Econ. Comm. of the Great Lakes Countries (ECGLC),,888
+Economic Community of West African States (ECOWAS),,997
 Ecuador,ECU,440
 Egypt,,142
 "Egypt, Arab Rep.",EGY,
 El Salvador,SLV,342
+Entente Council,,948
 Equatorial Guinea,,245
 Eritrea,ERI,271
 Estonia,,082
 Eswatini,SWZ,280
 Ethiopia,ETH,238
+Eurasian Development Bank,,977
+EUROFIMA,,927
 Europe & Central Asia (excluding high income),ECA,
+European Bank for Reconstruction and Dev. (EBRD),,990
+European Coal and Steel Community (ECSC),,924
+European Development Fund (EDF),,918
+European Economic Community (EEC),,917
+European Free Trade Association (EFTA),,987
+European Investment Bank,,919
+European Relief Fund,,958
+European Social Fund (ESF),,961
+European Union,,975
 Fiji,FJI,832
 Finland,,018
+Fondo Latinoamericano de Reservas (FLAR),,892
+Food and Agriculture Organization (FAO),,932
+Foreign Trade Bank of Latin America (BLADEX),,962
 France,,004
 French Polynesia,,840
 Gabon,GAB,239
@@ -81,6 +123,7 @@ German Dem. Rep.,,074
 "Germany, Fed.Rep. Of",,005
 Ghana,GHA,241
 Gibraltar,,035
+Global Environment Facility,,811
 Greece,,040
 Grenada,GRD,381
 Guadeloupe,,345
@@ -93,16 +136,25 @@ Haiti,HTI,349
 Honduras,HND,351
 Hong Kong,,735
 Hungary,,075
-IDA only,IDX,
 Iceland,,020
+IDA only,IDX,
+IDA total,IDA,
 India,IND,646
 Indonesia,IDN,738
 Inter-American Dev. Bank      ,,909
+International Bank for Economic Cooperation (IBEC),,877
+International Coffee Organization (ICO),,895
+International Finance Corporation,,903
+International Fund for Agricultural Dev.,,988
+International Investment Bank (IIB),,904
+International Labour Organization (ILO),,940
 International Monetary Fund,,907
 "Iran, Islamic Rep.",IRN,
 "Iran, Islamic Republic Of",,540
 Iraq,,543
 Ireland,,021
+Islamic Dev. Bank,,976
+Islamic Solidarity Fund for Dev. (ISFD),,979
 Israel,,546
 Italy,,006
 Jamaica,JAM,354
@@ -118,7 +170,9 @@ Kuwait,,552
 Kyrgyz Republic,KGZ,522
 Lao PDR,LAO,
 Lao Peoples Democratic Repub.,,745
+Latin Amer. Conf. of Saving & Credit Coop. (COLAC),,939
 Latin America & Caribbean (excluding high income),LAC,
+Latin American Agribusiness Dev. Corp. (LAAD),,946
 Latvia,,083
 Least developed countries: UN classification,LDC,
 Lebanon,LBN,555
@@ -147,6 +201,7 @@ Moldova,MDA,093
 Monaco,,026
 Mongolia,MNG,753
 Montenegro,MNE,065
+Montreal Protocol Fund,,812
 Morocco,MAR,136
 Mozambique,MOZ,259
 Multiple Lenders,,994
@@ -160,9 +215,14 @@ New Zealand,,820
 Nicaragua,NIC,364
 Niger,NER,260
 Nigeria,NGA,261
+Nordic Development Fund,,950
+Nordic Environment Finance Corporation (NEFCO),,978
+Nordic Investment Bank,,969
 North Macedonia,MKD,066
 Norway,,008
 Oman,,558
+OPEC Fund for International Dev.,,951
+Org. of Arab Petroleum Exporting Countries (OAPEC),,952
 Other Bilateral,,OBL
 Other Multilaterals,,OTM
 Other Multiple Lenders,,FCW
@@ -173,6 +233,7 @@ Papua New Guinea,PNG,862
 Paraguay,PRY,451
 Peru,PER,454
 Philippines,PHL,755
+Plata Basin Financial Dev. Fund,,898
 Poland,,076
 Portugal,,009
 Puerto Rico,,368
@@ -196,6 +257,7 @@ Solomon Islands,SLB,866
 Somalia,SOM,273
 South Africa,ZAF,216
 South Asia,SAS,
+South Asian Development Fund (SADF),,991
 Spain,,050
 Sri Lanka,LKA,640
 St. Kitts And Nevis,,382
@@ -204,7 +266,7 @@ St. Vincent & The Grenadines,,384
 St. Vincent and the Grenadines,VCT,
 Sub-Saharan Africa (excluding high income),SSA,
 Sudan,SDN,278
-Surinam,,457
+Suriname,SUR,457
 Sweden,,010
 Switzerland,,011
 Syrian Arab Republic,SYR,573
@@ -216,25 +278,50 @@ Togo,TGO,283
 Tonga,TON,870
 Trinidad & Tobago,,375
 Tunisia,TUN,139
-Turkey,TUR,055
+Turkiye,TUR,055
 Turkmenistan,TKM,525
-USSR,,078
 Uganda,UGA,285
 Ukraine,UKR,085
+UN-Children's Fund (UNICEF),,963
+UN-Development Fund for Women (UNIFEM),,806
+UN-Development Programme (UNDP),,959
+"UN-Educ., Scientific and Cultural Org. (UNESCO)",,942
+UN-Environment Programme (UNEP),,807
+UN-Fund for Drug Abuse Control (UNFDAC),,813
+UN-Fund for Human Rights,,804
+UN-General Assembly (UNGA),,808
+UN-High Commissioner for Refugees (UNHCR),,967
+UN-Industrial Development Organization (UNIDO),,925
+UN-INSTRAW,,809
 United Arab Emirates,,576
 United Kingdom,,012
 United States,,302
+UN-Office on Drugs and Crime (UNDCP),,803
+UN-Population Fund (UNFPA),,974
+UN-Regular Programme of Technical Assistance,,960
+UN-Regular Programme of Technical Coop. (RPTC),,878
+UN-Relief and Works Agency (UNRWA),,964
+UN-UNETPSA,,802
+UN-World Food Programme (WFP),,966
+UN-World Intellectual Property Organization,,814
+UN-World Meteorological Organization,,933
 Upper middle income,UMC,
 Uruguay,,460
+USSR,,078
 Uzbekistan,UZB,523
 Vanuatu,VUT,854
 "Venezuela, RB",VEN,
 "Venezuela, Republic Bolivarian",,463
-Vietnam,VNM,769
+Viet Nam,VNM,769
 Virgin Is.(US),,379
+West African Development Bank - BOAD,,957
+West African Monetary Union (UMOA),,970
 World,,WLD
 World Bank-IBRD                         ,,901
 World Bank-IDA                         ,,905
+World Bank-MIGA,,902
+World Health Organization,,931
+World Trade Organization,,019
 "Yemen, Rep.",YEM,
 "Yemen, Republic Of",,580
 Yugoslavia,,063
