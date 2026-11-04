@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>International Debt Statistics: Country analytical table</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    display: flex; flex-direction: column;
+    font: 12px Arial, Helvetica, sans-serif; color: #444; background: #fff;
+  }
+  .band { background: #7d1a14; height: 8px; flex: none; }
+  header { padding: 12px 16px 8px; flex: none; }
+  h1 { margin: 0; font: 400 24px "Open Sans", Arial, sans-serif; color: #2b5d85; }
+  h1 small { font-size: 15px; color: #666; }
+  .controls { display: flex; flex-wrap: wrap; align-items: end; gap: 8px 24px; margin-top: 10px; }
+  .control { display: flex; flex-direction: column; gap: 3px; font-size: 11px; color: #000; }
+  .control strong { font-weight: 400; }
+  select, .fixed-value {
+    font: 12px Arial, sans-serif; height: 28px; min-width: 240px; padding: 4px 6px;
+    border: 1px solid #aaa; border-radius: 4px; background: #fff;
+  }
+  .fixed-value { min-width: 120px; display: flex; align-items: center; background: #f4f4f4; color: #555; }
+  #status { min-height: 16px; font-size: 11px; color: #666; }
+  #message { display: none; margin: 0 16px 8px; padding: 8px 12px; border-radius: 4px; flex: none; }
+  #message.warning { display: block; background: #fff7e0; border: 1px solid #e0c060; color: #5c4800; }
+  #message.error { display: block; background: #fdecea; border: 1px solid #d9827a; color: #7d1a14; }
+  #message button { margin-left: 10px; font: inherit; padding: 2px 10px; cursor: pointer; }
+  main { flex: 1; min-height: 0; overflow: auto; border-top: 1px solid #ddd; }
+  main.loading table { opacity: 0.45; }
+  table { border-collapse: separate; border-spacing: 0; width: 100%; min-width: 1000px; }
+  thead th {
+    position: sticky; top: 0; z-index: 2; background: #fff; font-size: 11px; text-align: center;
+    padding: 6px 8px; border: 1px solid #333; border-width: 0 1px 1px 0;
+  }
+  thead th:first-child { left: 0; z-index: 3; text-align: left; white-space: nowrap; width: 300px; }
+  tbody th, tbody td { border-bottom: 1px dashed #aaa; padding: 3px 8px; background: #fff; }
+  tbody th { position: sticky; left: 0; z-index: 1; text-align: left; font-weight: 400; white-space: nowrap; }
+  tbody th.direct { color: #397aac; }
+  tbody td { text-align: right; white-space: nowrap; color: #333; font-variant-numeric: tabular-nums; }
+  tbody tr:hover th, tbody tr:hover td { background: #eef4f9; }
+  tr.section th { border-bottom: 1px dashed #aaa; color: #444; font-weight: 700; padding-left: 10px; }
+  tr.section.level-1 th { font-size: 14px; padding-top: 6px; }
+  /* Keeps a heading readable when the table is scrolled sideways. */
+  tr.section span { position: sticky; left: 10px; }
+  tr.section:hover th { background: #fff; }
+  footer { flex: none; padding: 8px 16px; font-size: 10px; font-style: italic; color: #636163; border-top: 1px solid #ddd; }
+  footer p { margin: 0 0 2px; }
+  @media print {
+    html, body { height: auto; display: block; }
+    main { overflow: visible; border: 0; }
+    thead th, tbody th { position: static; }
+    table { min-width: 0; font-size: 9px; }
+    .band { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="band"></div>
+<header>
+  <h1>International Debt Statistics <small id="table-title"></small></h1>
+  <div class="controls">
+    <label class="control"><strong>Country</strong>
+      <select id="country" disabled><option>Loading…</option></select>
+    </label>
+    <div class="control"><strong>Counterpart-Area</strong>
+      <div class="fixed-value">World</div>
+    </div>
+    <div id="status" role="status" aria-live="polite"></div>
+  </div>
+</header>
+<div id="message"></div>
+<main id="table-area"><table id="table" hidden></table></main>
+<footer>
+  <p id="note"></p>
+  <p id="source"></p>
+</footer>
+
+<script src="ids-tables.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  if (!window.IDS) {
+    var failed = document.getElementById('country');
+    failed.options[0].text = 'Unavailable';
+    var notice = document.getElementById('message');
+    notice.className = 'error';
+    notice.textContent = 'This page could not load ids-tables.js, or this browser could not run it. Try refreshing, or use a current version of your browser.';
+    return;
+  }
+
+  var TABLE = IDS.tables.analytical;
+  var DEFAULT_COUNTRY = 'AFG';
+  var TIMEOUT_MS = 20000;
+  // API responses are cached for up to 24 hours. Change this after a data release
+  // to make browsers and the CDN fetch fresh data straight away.
+  var DATA_VERSION = '1';
+
+  var select = document.getElementById('country');
+  var statusEl = document.getElementById('status');
+  var messageEl = document.getElementById('message');
+  var areaEl = document.getElementById('table-area');
+  var tableEl = document.getElementById('table');
+  var sourceEl = document.getElementById('source');
+
+  var years = [];
+  var latestRequest = 0;
+
+  document.getElementById('table-title').textContent = TABLE.title;
+  document.getElementById('note').textContent = TABLE.note;
+
+  // The API's data endpoint sends no CORS header, so fetch() is blocked in browsers;
+  // JSONP is the route that works. The callback name is fixed per request so that
+  // repeat requests share a URL and can be answered from the CDN cache.
+  function jsonpOnce(path, params, callbackName) {
+    return new Promise(function (resolve, reject) {
+      var query = new URLSearchParams(Object.assign({}, params, {
+        format: 'jsonp', prefix: callbackName, v: DATA_VERSION,
+      }));
+      var script = document.createElement('script');
+      var timer;
+      function finish() {
+        clearTimeout(timer);
+        script.remove();
+        // Left in place so a response arriving after a timeout is ignored quietly.
+        window[callbackName] = function () {};
+      }
+      window[callbackName] = function (response) { finish(); resolve(response); };
+      script.onerror = function () { finish(); reject(new Error('The request failed')); };
+      timer = setTimeout(function () { finish(); reject(new Error('The request timed out')); }, TIMEOUT_MS);
+      script.src = IDS.API_BASE + path + '?' + query;
+      document.head.appendChild(script);
+    });
+  }
+
+  function jsonp(path, params, callbackName) {
+    return jsonpOnce(path, params, callbackName).catch(function () {
+      return jsonpOnce(path, params, callbackName);
+    });
+  }
+
+  function loadCountries() {
+    return jsonp('/sources/6/country', { per_page: 500 }, 'idsCountries').then(function (response) {
+      return response.source[0].concept[0].variable
+        .filter(function (c) { return !IDS.AGGREGATES.includes(c.id); })
+        .sort(function (a, b) { return a.value.localeCompare(b.value); });
+    });
+  }
+
+  // The newest year with data for all low- and middle-income countries sets the
+  // window, so the table moves forward by itself when a new release goes live.
+  function loadYears() {
+    var path = IDS.dataPath('LMY', ['DT.DOD.DECT.CD'], ['X']).replace('YRX', 'all');
+    return jsonp(path, { per_page: 200 }, 'idsYears').then(function (response) {
+      var totals = IDS.parseResponse(response).series['DT.DOD.DECT.CD'] || {};
+      var withData = Object.keys(totals).filter(function (y) { return totals[y] !== null; }).map(Number);
+      if (!withData.length) throw new Error('No years with data');
+      var last = Math.max.apply(null, withData);
+      var list = [];
+      for (var y = last - IDS.YEARS_SHOWN + 1; y <= last; y++) list.push(String(y));
+      return list;
+    });
+  }
+
+  function clearMessage() {
+    messageEl.className = '';
+    messageEl.textContent = '';
+  }
+
+  function showError(text, retry) {
+    messageEl.className = 'error';
+    messageEl.textContent = text;
+    if (retry) {
+      var button = document.createElement('button');
+      button.textContent = 'Try again';
+      button.addEventListener('click', retry);
+      messageEl.appendChild(button);
+    }
+  }
+
+  function render(bySeries) {
+    var head = document.createElement('thead');
+    var headRow = head.insertRow();
+    [TABLE.unitNote].concat(years).forEach(function (text) {
+      var th = document.createElement('th');
+      th.scope = 'col';
+      th.textContent = text;
+      headRow.appendChild(th);
+    });
+
+    var body = document.createElement('tbody');
+    TABLE.entries.forEach(function (entry) {
+      var tr = body.insertRow();
+      var th = document.createElement('th');
+      tr.appendChild(th);
+      if (entry.heading) {
+        tr.className = 'section level-' + entry.level;
+        th.colSpan = years.length + 1;
+        var span = document.createElement('span');
+        span.textContent = entry.label;
+        th.appendChild(span);
+        return;
+      }
+      th.scope = 'row';
+      th.textContent = entry.label;
+      th.style.paddingLeft = entry.indent + 'px';
+      if (entry.bold) th.style.fontWeight = '700';
+      if (entry.italic) th.style.fontStyle = 'italic';
+      if (typeof entry.source === 'string') {
+        th.className = 'direct';
+        th.title = entry.source;
+      } else {
+        th.title = entry.source.map(function (term, i) {
+          return (term[0] < 0 ? '− ' : i ? '+ ' : '') + term[1];
+        }).join(' ');
+      }
+      years.forEach(function (year) {
+        tr.insertCell().textContent = IDS.cellText(entry, bySeries, year);
+      });
+    });
+
+    tableEl.replaceChildren(head, body);
+    tableEl.hidden = false;
+  }
+
+  function showCountry(code) {
+    var requestId = ++latestRequest;
+    var name = select.options[select.selectedIndex].text;
+    var codes = IDS.seriesOf(TABLE);
+    clearMessage();
+    areaEl.classList.add('loading');
+    statusEl.textContent = 'Loading ' + name + '…';
+
+    return jsonp(IDS.dataPath(code, codes, years), { per_page: 5000 }, 'idsData_' + code).then(function (response) {
+      if (requestId !== latestRequest) return;
+      var parsed = IDS.parseResponse(response);
+      if (parsed.pages !== 1) throw new Error('Response was split across pages');
+      render(parsed.series);
+      areaEl.classList.remove('loading');
+      statusEl.textContent = '';
+      sourceEl.textContent = 'Source: World Bank International Debt Statistics API. Data last updated ' + parsed.lastUpdated + '.';
+      // The API drops unknown codes without an error, so a renamed series would
+      // otherwise just look like missing data.
+      var missing = codes.filter(function (c) { return !parsed.series[c]; });
+      if (missing.length) {
+        messageEl.className = 'warning';
+        messageEl.textContent = 'The API did not return these series, so their rows may be wrong or empty: ' + missing.join(', ');
+      }
+    }).catch(function () {
+      if (requestId !== latestRequest) return;
+      // Hide the table so the previous country's numbers can't be read as this one's.
+      tableEl.hidden = true;
+      areaEl.classList.remove('loading');
+      statusEl.textContent = '';
+      showError('Could not load data for ' + name + ' from the World Bank API.', function () { showCountry(code); });
+    });
+  }
+
+  function countryFromUrl() {
+    return (new URLSearchParams(location.search).get('country') || '').toUpperCase();
+  }
+
+  function selectFromUrl() {
+    var wanted = countryFromUrl();
+    var known = Array.from(select.options).some(function (o) { return o.value === wanted; });
+    select.value = known ? wanted : DEFAULT_COUNTRY;
+    return select.value;
+  }
+
+  function start() {
+    clearMessage();
+    select.options[0].text = 'Loading…';
+    statusEl.textContent = 'Connecting to the World Bank API…';
+    Promise.all([loadCountries(), loadYears()]).then(function (results) {
+      years = results[1];
+      select.replaceChildren.apply(select, results[0].map(function (c) { return new Option(c.value, c.id); }));
+      select.disabled = false;
+      showCountry(selectFromUrl());
+    }).catch(function (err) {
+      statusEl.textContent = '';
+      select.options[0].text = 'Unavailable';
+      showError('Could not get data from api.worldbank.org (' + err.message + '). The API may be down, or a browser extension, firewall or VPN may be blocking it.', start);
+    });
+  }
+
+  select.addEventListener('change', function () {
+    history.pushState(null, '', '?country=' + select.value);
+    showCountry(select.value);
+  });
+  window.addEventListener('popstate', function () { showCountry(selectFromUrl()); });
+
+  start();
+})();
+</script>
+</body>
+</html>
