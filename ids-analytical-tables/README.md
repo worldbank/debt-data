@@ -1,4 +1,4 @@
-Static pages that rebuild the International Debt Statistics analytical country tables from the World Bank API. Data is fetched live in the browser, so there is no build step or server code.
+Static pages that rebuild the International Debt Statistics analytical country tables (https://www.worldbank.org/en/programs/debt-statistics/ids) from the World Bank API. Data is fetched live in the browser, so there is no build step or server code.
 
 index.html, standard/index.html: the two pages
 ids-dashboard.js, ids-dashboard.css: code and styling shared by both pages
