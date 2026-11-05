@@ -16,7 +16,7 @@ To encourage the exploration and analysis of the World Bank's IDS data, these st
 
 IDS 2021 added an additional dimension to the data – the creditor country. To help you start exploring this data, we put together another step-by-step guide in both Python and R. In the previous guides, we used packages to wrap the API and present us with data. This time, in order to better understand API requests we will take a closer look at how each variable is presented in the URL.
 
-## 3. [IDS Analytical Tables](https://worldbank.github.io/debt-data/ids-analytical-tables/)
+### 3. [IDS Analytical Tables](https://worldbank.github.io/debt-data/ids-analytical-tables/)
 
 A recreation of the IDS analytical tables online, pulling data from the World Bank API.
 
